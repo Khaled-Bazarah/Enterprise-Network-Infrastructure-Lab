@@ -112,6 +112,8 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
   * MLS2 (`Gi0/0`): `192.168.1.81` | FortiGate (`port3`): `192.168.1.82`
 * **FortiGate ↔ Edge Router (vIOS):** `192.168.1.84/30`
   * FortiGate (`port1`): `192.168.1.85` | vIOS (`Gi0/1`): `192.168.1.86`
+* **Edge Router WAN / Internet Interface:**
+  * vIOS Router (`Gi0/0`): `192.168.8.250` (External WAN Interface connecting to ISP / Net Cloud)
 
 ---
 
