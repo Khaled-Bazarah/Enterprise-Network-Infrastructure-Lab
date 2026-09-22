@@ -8,7 +8,7 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 
 ![Enterprise Network Topology](./docs/topologies/topology.png)
 
-> **Physical Hardware & Hybrid Setup Overview:** 
+### **Physical Hardware & Hybrid Setup Overview:** 
 > - **Primary Laptop:** Hosts **VMware Workstation Pro** running the **EVE-NG** emulation environment.
 > - **Secondary Laptop:** Deployed as a bare-metal **Proxmox VE Hypervisor** using a bootable USB created with **Rufus** to utilize full hardware performance. Hosts virtualized **Windows Server** (Domain Controller) and **Ubuntu Server** (Zabbix Monitoring).
 > - **Physical Interconnect:** Both laptops are physically bridged via an **Ethernet Cable (LAN)**, seamlessly linking Proxmox virtual machines directly into EVE-NG's **Server VLAN 30**.
