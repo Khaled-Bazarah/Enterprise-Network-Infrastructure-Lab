@@ -105,8 +105,7 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 * **MLS1 Router ID:** `10.10.10.1` | **MLS2 Router ID:** `10.10.10.2`
 * **FortiGate Router ID:** `10.10.10.3` | **vIOS Router ID:** `10.10.10.4`
 
-* **MLS1 ↔ MLS2 Routed Link / LACP (`Port-Channel 1`):** `192.168.1.72/30`
-  * MLS1 (`Gi1/0`): `192.168.1.73` | MLS2 (`Gi1/0`): `192.168.1.74`
+
 * **MLS1 ↔ FortiGate:** `192.168.1.76/30`
   * MLS1 (`Gi0/0`): `192.168.1.77` | FortiGate (`port2`): `192.168.1.78`
 * **MLS2 ↔ FortiGate:** `192.168.1.80/30`
