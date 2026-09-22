@@ -26,7 +26,7 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
   * **Endpoints:** Windows 10 Desktop & Ubuntu Linux Client.
 * **Management & Administration Tools:**
   * **Proxmox VE Management:** Administered via **Proxmox Web GUI** for VM creation/resource allocation and **Proxmox Terminal / Shell (CLI)** for  networking, and package configurations.
-  * **FortiGate Management:** Dual management via **Web GUI (HTTPS)** for security policy visual configuration and **CLI (SSH)** for advance network routing and system administration.
+  * **FortiGate Management:** Dual management via **Web GUI (HTTPS)** for security policy visual configuration and **CLI (SSH)** for advanced network routing and system administration.
   * **Remote Access & CLI:** **PuTTY** and **MobaXterm** for SSH/Console session management across Cisco & Linux nodes.
   * **File Transfer:** **WinSCP** for transferring images, configurations, and scripts.
 
