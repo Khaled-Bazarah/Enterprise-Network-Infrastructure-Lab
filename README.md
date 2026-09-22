@@ -38,7 +38,7 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 * **Layer 3 Switching & Inter-VLAN Routing:**
   * Enabled global **IP Routing** (`ip routing`) on Multi-Layer Switches (`MLS1` & `MLS2`).
   * Configured **Switch Virtual Interfaces (SVIs)** across all VLANs (`VLAN 10, 20, 30, 99`) to allow MLS devices to function as Layer 3 core gateways and perform high-speed line-rate Inter-VLAN routing.
-* **Routing & Redundancy:** 
+* **Routing & Redundancy:**
   * **OSPF Area 0 (Process ID 1):** Configured across MLS1, MLS2, and FortiGate with dedicated `/32` Loopback Router IDs (`10.10.10.1` to `10.10.10.3`).
   * **HSRP Gateway Redundancy & Load Balancing:** Active/Standby state distribution with preemption enabled.
   * **Rapid PVST+ & STP Root Load Balancing:** Dual Root Bridge configuration matching HSRP active roles.
@@ -46,14 +46,13 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 * **Switching & Layer 2/3 Hardening:**
   * **Unused Port Security (Physical Protection):** Manually disabled all unused/inactive switchports (`shutdown`) across Access and Core switches to block unauthorized physical connections.
   * Strict Access/Trunk encapsulation with dedicated Native VLAN 999 to mitigate VLAN Hopping.
-  * **Port Security:** `maximum` MAC limits, `restricting` violations, and `sticky` MAC learning.
+  * **Port Security:** Maximum MAC limits, restricting violations, and `sticky` MAC learning.
   * **Spanning Tree Security:** `PortFast` and `BPDU Guard` enabled on end-user access ports.
   * **Snooping & Spoofing Mitigation:** `DHCP Snooping` and `Dynamic ARP Inspection (DAI)` on untrusted interfaces.
-* **Boundary Security & Edge:**
-  * **FortiGate NGFW:** IPv4 Security Policies, NAT, and UTM Profiles for secure internet access configured via Web GUI & CLI.
-  * **Default Internet Routing:** Configured Static **Default Route** (`0.0.0.0 0.0.0.0`) pointing to the ISP upstream interface on the Edge Router (and default static route on FortiGate towards Edge Router) to provide full internet outbound reachability for all internal subnets.
-  * **Edge Router:** Access Control Lists (ACLs), and Control Plane Policing (CoPP) for DoS protection.
-  * **Network Address Translation (NAT / PAT):** Configured `ip nat inside` on trusted internal interfaces and `ip nat outside` on the external WAN interface to enable secure dynamic internet translation for private VLAN subnets.
+* **Boundary Security & Edge Protection:**
+  * **FortiGate NGFW & Edge Router:** Configured IPv4 Security Policies, Dynamic NAT/PAT, and UTM Profiles for secure internet access via Web GUI & CLI.
+  * **Default Internet Routing:** Configured Static **Default Route** (`0.0.0.0 0.0.0.0`) pointing to the ISP upstream interface on the Edge device to provide full internet outbound reachability for all internal subnets.
+  * **Traffic Filtering & Control Plane Security:** Applied Access Control Lists (ACLs) and Control Plane Policing (CoPP) on edge routing interfaces for infrastructure protection and DoS mitigation.
 * **Device Hardening & Line Security:** Local user accounts with `secret` passwords, `service password-encryption`, SSH v2 with RSA key pairs, line console/vty hardening, and dedicated Out-of-Band Management (VLAN 99).
 
 ---
