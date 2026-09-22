@@ -59,11 +59,11 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 
 ## 🚀 Implementation Roadmap & Status
 
-- [x] **Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening**
-- [ ] **Phase 2: Active Directory Services, Identity, DNS, DHCP & GPO Integration**
-- [ ] **Phase 3: Centralized Infrastructure Monitoring (Zabbix & Deep Packet Inspection)**
-- [ ] **Phase 4: Disaster Recovery & Automated Enterprise Backup (Veeam)**
-- [ ] **Phase 5: Secure Remote Work (FortiGate SSL-VPN & Multi-Factor Authentication)**
+* ✅ **Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening**
+* ⏳ **Phase 2: Active Directory Services, Identity, DNS, DHCP & GPO Integration**
+* ⏳ **Phase 3: Centralized Infrastructure Monitoring (Zabbix & Deep Packet Inspection)**
+* ⏳ **Phase 4: Disaster Recovery & Automated Enterprise Backup (Veeam)**
+* ⏳ **Phase 5: Secure Remote Work (FortiGate SSL-VPN & Multi-Factor Authentication)**
 
 ---
 
