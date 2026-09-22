@@ -96,7 +96,7 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 
 * **End-User Testing Hosts:**
   * `Windows 10 PC (VLAN 10)`: Assigned static IP within `192.168.1.0/27` range.
-  * `Ubuntu Linux PC (VLAN 20)`: Assigned static IP within `192.168.1.32/27` range.
+  * `Ubuntu Linux PC (VLAN 20)`: Assigned static IP within `192.168.1.32/28` range.
 
 ---
 
