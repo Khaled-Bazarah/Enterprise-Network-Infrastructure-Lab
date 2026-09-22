@@ -19,7 +19,7 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 
 * **Network Devices & Firewalls:**
   * **Cisco Systems:** Official Cisco `vIOS` (Router) and `vIOS-L2` (Access & Multi-Layer Switches) images.
-  * **Fortinet:** **FortiGate NGWF** (FortiOS) image.
+  * **Fortinet:** **FortiGate NGFW** (FortiOS) image.
 * **Host & Server Systems:**
   * **Hypervisor:** **Proxmox VE** (Flashed using **Rufus** for bare-metal installation).
   * **Virtual Servers:** Windows Server & Ubuntu Server (running on Proxmox VE).
@@ -35,8 +35,11 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 ## 💡 Key Technical Highlights & Implemented Protocols
 
 * **Addressing & Subnetting (VLSM):** Efficient IP allocation using `/27`, `/28`, and `/30` subnets to optimize address space and separate departments.
+* **Layer 3 Switching & Inter-VLAN Routing:**
+  * Enabled global **IP Routing** (`ip routing`) on Multi-Layer Switches (`MLS1` & `MLS2`).
+  * Configured **Switch Virtual Interfaces (SVIs)** across all VLANs (`VLAN 10, 20, 30, 99`) to allow MLS devices to function as Layer 3 core gateways and perform high-speed line-rate Inter-VLAN routing.
 * **Routing & Redundancy:** 
-  * **OSPF Area 0 (Process ID 1):** Configured across MLS1, MLS2, FortiGate, and Edge Router with dedicated `/32` Loopback Router IDs (`10.10.10.1` to `10.10.10.4`).
+  * **OSPF Area 0 (Process ID 1):** Configured across MLS1, MLS2, and FortiGate with dedicated `/32` Loopback Router IDs (`10.10.10.1` to `10.10.10.3`).
   * **HSRP Gateway Redundancy & Load Balancing:** Active/Standby state distribution with preemption enabled.
   * **Rapid PVST+ & STP Root Load Balancing:** Dual Root Bridge configuration matching HSRP active roles.
   * **Link Aggregation:** LACP EtherChannel (`Port-Channel 1`) trunks carrying explicitly allowed VLANs.
@@ -47,8 +50,10 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
   * **Spanning Tree Security:** `PortFast` and `BPDU Guard` enabled on end-user access ports.
   * **Snooping & Spoofing Mitigation:** `DHCP Snooping` and `Dynamic ARP Inspection (DAI)` on untrusted interfaces.
 * **Boundary Security & Edge:**
-  * **FortiGate NGWF:** IPv4 Security Policies, NAT, and UTM Profiles for secure internet access configured via Web GUI & CLI.
-  * **Edge Router:** Access Control Lists (ACLs), `ip nat inside/outside`, and Control Plane Policing (CoPP) for DoS protection.
+  * **FortiGate NGFW:** IPv4 Security Policies, NAT, and UTM Profiles for secure internet access configured via Web GUI & CLI.
+  * **Default Internet Routing:** Configured Static **Default Route** (`0.0.0.0 0.0.0.0`) pointing to the ISP upstream interface on the Edge Router (and default static route on FortiGate towards Edge Router) to provide full internet outbound reachability for all internal subnets.
+  * **Edge Router:** Access Control Lists (ACLs), and Control Plane Policing (CoPP) for DoS protection.
+  * **Network Address Translation (NAT / PAT):** Configured `ip nat inside` on trusted internal interfaces and `ip nat outside` on the external WAN interface to enable secure dynamic internet translation for private VLAN subnets.
 * **Device Hardening & Line Security:** Local user accounts with `secret` passwords, `service password-encryption`, SSH v2 with RSA key pairs, line console/vty hardening, and dedicated Out-of-Band Management (VLAN 99).
 
 ---
