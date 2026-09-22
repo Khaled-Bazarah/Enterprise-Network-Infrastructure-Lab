@@ -67,16 +67,16 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 
 ---
 
-## 📑 Detailed IP Addressing & Subnet Architecture
+## 📝 Detailed IP Addressing & Subnet Architecture
 
 ### 1. VLAN & Gateway Redundancy Scheme (HSRP & STP Roles)
 
 | VLAN ID | Subnet / Mask | Department / Purpose | HSRP VIP | MLS1 Role & IP | MLS2 Role & IP | STP Root Role |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **VLAN 10** | `192.168.1.0/27` | Engineers | `192.168.1.1` | **Active** (Pri 110) - `192.168.1.2` | **Standby** (Pri 100) - `192.168.1.3` | **MLS1 Primary Root** |
-| **VLAN 20** | `192.168.1.32/27` | HR | `192.168.1.33` | **Standby** (Pri 100) - `192.168.1.34` | **Active** (Pri 110) - `192.168.1.35` | **MLS2 Primary Root** |
-| **VLAN 30** | `192.168.1.96/28` | Server Farm | `192.168.1.97` | SVI: `192.168.1.98` | **Active** (Pri 110) - `192.168.1.99` | **MLS2 Primary Root** |
-| **VLAN 99** | `192.168.1.48/28` | Management (OOB) | `192.168.1.49` | **Active** (Pri 110) - `192.168.1.50` | SVI: `192.168.1.51` | **MLS1 Primary Root** |
+| :---: | :---: | :--- | :---: | :--- | :--- | :--- |
+| **VLAN 10** | `192.168.1.0/27` | Engineers | `192.168.1.1` | **Active (Pri 110)** - `192.168.1.2` | **Standby (Pri 100)** - `192.168.1.3` | **MLS1 Primary Root** |
+| **VLAN 20** | `192.168.1.32/27` | HR | `192.168.1.33` | **Standby (Pri 100)** - `192.168.1.34` | **Active (Pri 110)** - `192.168.1.35` | **MLS2 Primary Root** |
+| **VLAN 99** | `192.168.1.48/28` | Management (OOB) | `192.168.1.49` | **Active (Pri 110)** - `192.168.1.50` | **Standby (Pri 100)** - `192.168.1.51` | **MLS1 Primary Root** |
+| **VLAN 30** | `192.168.1.96/28` | Server Farm | `192.168.1.97` | **Standby (Pri 100)** - `192.168.1.98` | **Active (Pri 110)** - `192.168.1.99` | **MLS2 Primary Root** |
 
 > **Native VLAN:** `VLAN 999` (Used exclusively across all trunks for security).
 
