@@ -10,7 +10,7 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 
 > **Physical Hardware & Hybrid Setup Overview:** 
 > - **Primary Laptop:** Hosts **VMware Workstation Pro** running the **EVE-NG** emulation environment.
-> - **Secondary Laptop:** Configured as a bare-metal **Proxmox VE Hypervisor** to utilize full hardware performance, hosting virtualized **Windows Server** (Domain Controller) and **Ubuntu Server** (Zabbix Monitoring).
+> - **Secondary Laptop:** Deployed as a bare-metal **Proxmox VE Hypervisor** using a bootable USB created with **Rufus** to utilize full hardware performance. Hosts virtualized **Windows Server** (Domain Controller) and **Ubuntu Server** (Zabbix Monitoring).
 > - **Physical Interconnect:** Both laptops are physically bridged via an **Ethernet Cable (LAN)**, seamlessly linking Proxmox virtual machines directly into EVE-NG's **Server VLAN 30**.
 
 ---
@@ -21,12 +21,14 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
   * **Cisco Systems:** Official Cisco `vIOS` (Router) and `vIOS-L2` (Access & Multi-Layer Switches) images.
   * **Fortinet:** **FortiGate NGWF** (FortiOS) image.
 * **Host & Server Systems:**
-  * **Servers:** Windows Server & Ubuntu Server (running on Proxmox VE).
+  * **Hypervisor:** **Proxmox VE** (Flashed using **Rufus** for bare-metal installation).
+  * **Virtual Servers:** Windows Server & Ubuntu Server (running on Proxmox VE).
   * **Endpoints:** Windows 10 Desktop & Ubuntu Linux Client.
 * **Management & Administration Tools:**
-  * **Remote Access & CLI:** **PuTTY** and **MobaXterm** for SSH/Console session management.
+  * **Proxmox VE Management:** Administered via **Proxmox Web GUI** for VM creation/resource allocation and **Proxmox Terminal / Shell (CLI)** for advanced storage, networking, and package configurations.
+  * **FortiGate Management:** Dual management via **Web GUI (HTTPS)** for security policy visual configuration and **CLI (SSH)** for advance network routing and system administration.
+  * **Remote Access & CLI:** **PuTTY** and **MobaXterm** for SSH/Console session management across Cisco & Linux nodes.
   * **File Transfer:** **WinSCP** for transferring images, configurations, and scripts.
-  * **FortiGate Management:** Dual management via **Web GUI (HTTPS)** for firewall policy visual management and **CLI (SSH)** for advance network routing and system configurations.
 
 ---
 
@@ -115,4 +117,4 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 *Computer & Network Engineer*  
 * Certified: Cisco Certified Network Associate (CCNA 200-301)  
 * Accredited Computer Engineer – Saudi Council of Engineers  
-* 🔗 [LinkedIn Profile](https:www.linkedin.com/in/10khaled-bazarah)
+* 🔗 [LinkedIn Profile](https://www.linkedin.com/in/10khaled-bazarah)
