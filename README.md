@@ -41,6 +41,7 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
   * **Rapid PVST+ & STP Root Load Balancing:** Dual Root Bridge configuration matching HSRP active roles.
   * **Link Aggregation:** LACP EtherChannel (`Port-Channel 1`) trunks carrying explicitly allowed VLANs.
 * **Switching & Layer 2/3 Hardening:**
+  * **Unused Port Security (Physical Protection):** Manually disabled all unused/inactive switchports (`shutdown`) across Access and Core switches to block unauthorized physical connections.
   * Strict Access/Trunk encapsulation with dedicated Native VLAN 999 to mitigate VLAN Hopping.
   * **Port Security:** `maximum` MAC limits, `restricting` violations, and `sticky` MAC learning.
   * **Spanning Tree Security:** `PortFast` and `BPDU Guard` enabled on end-user access ports.
