@@ -1,25 +1,38 @@
 # Enterprise Multi-Tier Network & Infrastructure Architecture Lab 🚀
 
-Welcome to the repository for my **Enterprise Network & Systems Infrastructure Lab**. This project features a multi-tiered, highly available, and secured enterprise-grade topology designed and emulated using **EVE-NG**, integrated seamlessly with a physical **Proxmox VE** hypervisor host.
+Welcome to the repository for my **Enterprise Network & Systems Infrastructure Lab**. This project showcases a multi-tiered, highly available, and secure enterprise-grade topology emulated in **EVE-NG** and integrated with a physical bare-metal **Proxmox VE** hypervisor node over a physical Ethernet link.
 
 ---
 
-## 📐 Network Topology
+## 📐 Network Topology & Physical Lab Architecture
 
 ![Enterprise Network Topology](./docs/topologies/topology.png)
 
-> **Architecture Overview:** 
-> - **Edge / Gateway:** Border Router (`vIOS`) managing external NAT and Control Plane Protection.
-> - **Next-Generation Firewall:** **Fortinet FortiGate** enforcing edge security policies, UTM profiles, and NAT.
-> - **Core / Aggregation Layer:** Dual Multi-Layer Switches (**MLS1 & MLS2**) handling Inter-VLAN Routing, OSPF, HSRP, and Rapid PVST+.
-> - **Access Layer:** Layer 2 Switches (**SW1, SW2, SW3**) with hardened port security, DAI, and DHCP Snooping.
-> - **Virtualization Node:** Physical **Proxmox VE Server** hosting virtualized Windows Server and Ubuntu Server (Zabbix) connected to Core MLS.
+> **Physical Hardware & Hybrid Setup Overview:** 
+> - **Primary Laptop:** Hosts **VMware Workstation Pro** running the **EVE-NG** emulation environment.
+> - **Secondary Laptop:** Configured as a bare-metal **Proxmox VE Hypervisor** to utilize full hardware performance, hosting virtualized **Windows Server** (Domain Controller) and **Ubuntu Server** (Zabbix Monitoring).
+> - **Physical Interconnect:** Both laptops are physically bridged via an **Ethernet Cable (LAN)**, seamlessly linking Proxmox virtual machines directly into EVE-NG's **Server VLAN 30**.
 
 ---
 
-## 🛠️ Key Technical Highlights & Implemented Protocols
+## 🛠️ Software, OS Images & Administrative Tools
 
-* **Addressing & Subnetting (VLSM):** Customized IP allocation using `/27`, `/28`, and `/30` subnets to eliminate IP wastage across departments.
+* **Network Devices & Firewalls:**
+  * **Cisco Systems:** Official Cisco `vIOS` (Router) and `vIOS-L2` (Access & Multi-Layer Switches) images.
+  * **Fortinet:** **FortiGate NGWF** (FortiOS) image.
+* **Host & Server Systems:**
+  * **Servers:** Windows Server & Ubuntu Server (running on Proxmox VE).
+  * **Endpoints:** Windows 10 Desktop & Ubuntu Linux Client.
+* **Management & Administration Tools:**
+  * **Remote Access & CLI:** **PuTTY** and **MobaXterm** for SSH/Console session management.
+  * **File Transfer:** **WinSCP** for transferring images, configurations, and scripts.
+  * **FortiGate Management:** Dual management via **Web GUI (HTTPS)** for firewall policy visual management and **CLI (SSH)** for advance network routing and system configurations.
+
+---
+
+## 💡 Key Technical Highlights & Implemented Protocols
+
+* **Addressing & Subnetting (VLSM):** Efficient IP allocation using `/27`, `/28`, and `/30` subnets to optimize address space and separate departments.
 * **Routing & Redundancy:** 
   * **OSPF Area 0 (Process ID 1):** Configured across MLS1, MLS2, FortiGate, and Edge Router with dedicated `/32` Loopback Router IDs (`10.10.10.1` to `10.10.10.4`).
   * **HSRP Gateway Redundancy & Load Balancing:** Active/Standby state distribution with preemption enabled.
@@ -31,7 +44,7 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
   * **Spanning Tree Security:** `PortFast` and `BPDU Guard` enabled on end-user access ports.
   * **Snooping & Spoofing Mitigation:** `DHCP Snooping` and `Dynamic ARP Inspection (DAI)` on untrusted interfaces.
 * **Boundary Security & Edge:**
-  * **FortiGate NGWF:** IPv4 Security Policies, NAT, and UTM Profiles for secure internet exit.
+  * **FortiGate NGWF:** IPv4 Security Policies, NAT, and UTM Profiles for secure internet access configured via Web GUI & CLI.
   * **Edge Router:** Access Control Lists (ACLs), `ip nat inside/outside`, and Control Plane Policing (CoPP) for DoS protection.
 * **Device Hardening & Line Security:** Local user accounts with `secret` passwords, `service password-encryption`, SSH v2 with RSA key pairs, line console/vty hardening, and dedicated Out-of-Band Management (VLAN 99).
 
@@ -74,9 +87,9 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
   * `Windows Server (Domain Controller)`: `192.168.1.101/28`
   * `Ubuntu Server (Zabbix Monitoring)`: `192.168.1.102/28`
 
-* **End-User Static Testing Hosts:**
-  * `Windows PC (VLAN 10)`: Assigned static IP within `192.168.1.0/27` range.
-  * `Linux PC (VLAN 20)`: Assigned static IP within `192.168.1.32/27` range.
+* **End-User Testing Hosts:**
+  * `Windows 10 PC (VLAN 10)`: Assigned static IP within `192.168.1.0/27` range.
+  * `Ubuntu Linux PC (VLAN 20)`: Assigned static IP within `192.168.1.32/27` range.
 
 ---
 
@@ -102,4 +115,4 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 *Computer & Network Engineer*  
 * Certified: Cisco Certified Network Associate (CCNA 200-301)  
 * Accredited Computer Engineer – Saudi Council of Engineers  
-* 🔗 [LinkedIn Profile](https://www.linkedin.com/in/) *(قم بوضع رابط حسابك هنا)*
+* 🔗 [LinkedIn Profile](https:www.linkedin.com/in/10khaled-bazarah)
