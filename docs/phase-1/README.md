@@ -4,6 +4,24 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 
 ---
 
+## 📐 Phase 1 Network Topology & Overview
+
+![Phase 1 Network Topology](../../docs/topologies/topology.png)
+
+> [!NOTE]
+> **Phase 1 Scope:** This documentation details the implementation of the core network foundation, Layer 2/3 redundancy, edge firewall integration, and baseline device hardening.
+
+---
+
+## 🎯 Key Phase 1 Objectives
+* **Core Resiliency:** Elimination of single points of failure via HSRP and Rapid PVST+.
+* **Dynamic Routing:** Single-Area OSPF (Area 0) for core-to-firewall route propagation.
+* **Perimeter Defense:** Edge inspection, Dynamic NAT/PAT, and WAN access via FortiGate NGFW.
+* **Infrastructure Protection:** Layer 2 hardening protocols (DHCP Snooping, DAI, Port Security, BPDU Guard).
+
+---
+
+
 ## 🛠️ Technical Highlights & Implementation Scope
 
 ### 1. Layer 2 Switching, Trunking & Link Aggregation
@@ -49,6 +67,5 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 
 
 
-![Cisco](https://img.shields.io/badge/Cisco-vIOS%20%7C%20CCNA-005073?style=for-the-badge&logo=cisco&logoColor=white)
 
 [⬅️ Back to Main Repository Overview](../../README.md)
