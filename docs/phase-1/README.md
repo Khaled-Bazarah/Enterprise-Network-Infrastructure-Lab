@@ -47,4 +47,8 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 
 ---
 
+
+
+![Cisco](https://img.shields.io/badge/Cisco-vIOS%20%7C%20CCNA-005073?style=for-the-badge&logo=cisco&logoColor=white)
+
 [⬅️ Back to Main Repository Overview](../../README.md)
