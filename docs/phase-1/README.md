@@ -16,11 +16,11 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 ## 🎯 Key Phase 1 Objectives
 * **Core Resiliency:** Elimination of single points of failure via HSRP and Rapid PVST+.
 * **Dynamic Routing:** Single-Area OSPF (Area 0) for core-to-firewall route propagation.
+* **Network Segmentation & VLSM:** Efficient IP subnetting and VLAN separation across departments (Engineering, HR, Server Farm, Management) for strict traffic isolation and scalable Inter-VLAN routing.
 * **Perimeter Defense:** Edge inspection, Dynamic NAT/PAT, and WAN access via FortiGate NGFW.
 * **Infrastructure Protection:** Layer 2 hardening protocols (DHCP Snooping, DAI, Port Security, BPDU Guard).
 
 ---
-
 
 ## 🛠️ Technical Highlights & Implementation Scope
 
