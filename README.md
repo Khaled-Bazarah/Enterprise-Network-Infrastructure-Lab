@@ -60,7 +60,7 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 ## 🚀 Implementation Roadmap & Status
 
 * ✅ **Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening**
-👉 **[View Full Phase 1 Detailed Documentation, IP Tables & Configurations](./docs/phase-1/README.md)**
+* 👉 **[View Full Phase 1 Detailed Documentation, IP Tables & Configurations](./docs/phase-1/README.md)**
 * ⏳ **Phase 2: Active Directory Services, Identity, DNS, DHCP & GPO Integration**
 * ⏳ **Phase 3: Centralized Infrastructure Monitoring (Zabbix & Deep Packet Inspection)**
 * ⏳ **Phase 4: Disaster Recovery & Automated Enterprise Backup (Veeam)**
