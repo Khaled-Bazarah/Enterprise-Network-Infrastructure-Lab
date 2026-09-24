@@ -134,6 +134,8 @@ spanning-tree vlan 10,99 priority 8192
 ```
 </details>
 
+---
+
 #### 📸 Rapid-PVST+ Spanning Tree Root Bridge Alignment & Loop Prevention Verification
 ![Rapid PVST Root Bridge Verification](./images/rapid-pvst-root-bridge-verification.png)
 > **Explanation:** Multi-switch CLI verification using `show spanning-tree` output proving successful Rapid-PVST+ topology calculations. Confirms MLS1 as Active Root Bridge for VLAN 99 (`This bridge is the root`) and MLS2 as Active Root Bridge for VLAN 20, while access switches (SW1, SW2, SW3) dynamically block redundant uplink paths (`Altn BLK`) to prevent Layer 2 loops.
