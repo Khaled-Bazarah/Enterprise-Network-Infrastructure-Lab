@@ -80,7 +80,7 @@ This repository documents the end-to-end design, implementation, and hardening o
 ## 🚀 Project Roadmap
 
 - [x] **Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening**
-  * *See [Phase 1 Detailed Documentation, IP Tables & CLI Artifacts](./docs/phase-1/README.md)*
+ > 📄 **Complete Details Available:** For all full CLI configurations, detailed interface maps, verification outputs, and IP tables, see the **[Phase 1 Comprehensive Documentation & Configuration Guide](./docs/phase-1/README.md)**.
 - [ ] **Phase 2: Active Directory Services, Identity, DNS, DHCP & GPO Integration**
 - [ ] **Phase 3: Centralized Infrastructure Monitoring (Zabbix & SNMP Traps)**
 - [ ] **Phase 4: Disaster Recovery & Enterprise Automated Backups (Veeam)**
