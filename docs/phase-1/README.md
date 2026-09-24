@@ -58,10 +58,35 @@ interface range GigabitEthernet0/2 - 3
 ```
 </details>
 
+---
 
-
-
+#### 📸 VLAN Database Provisioning & Local Subnet Ping Reachability Verification
 ![VLAN Database and Ping Test](./images/vlan-database-and-ping-test.png)
+> **Explanation:** Multi-switch CLI execution verifying the active VLAN database (`show vlan brief`) across MLS1, SW1, SW2, and SW3. Confirms operational status for VLAN 10 (Engineers), VLAN 20 (HR), and VLAN 99 (Management), alongside successful ICMP ping reachability (`ping 192.168.1.50`) on MLS2 across the management subnet.
+
+<details>
+<summary><b>📄 Click to expand VLAN Database Setup & Verification CLI Commands</b></summary>
+
+```bash
+# Core & Access Switches - VLAN Database Creation
+vlan 10
+ name Engineers
+vlan 20
+ name HR
+vlan 99
+ name Management
+
+# Verification Commands
+show vlan brief
+
+# ICMP Reachability Test
+ping 192.168.1.50
+```
+</details>
+
+
+--
+
 
 ![MLS LACP EtherChannel Status](./images/mls-lacp-etherchannel-status.png)
 
