@@ -285,20 +285,105 @@ show ip arp inspection vlan 20
 
 ### 3. Addressing, Layer 3 Switching & Inter-VLAN Routing
 
+#### 📸 FortiGate CLI Interface IPv4 & Management Provisioning
 ![FortiGate CLI Interface IP Config](./images/fortigate-cli-interface-ip-config.png)
+> **Explanation:** FortiGate CLI session demonstrating static IPv4 interface configuration on `port1` (`192.168.1.85/30`). Enforces management access protocols (`set allowaccess ping http ssh https`) and validates active interface bindings via `diagnose ip address list`.
 
+<details>
+<summary><b>📄 Click to expand FortiGate Interface CLI Commands</b></summary>
+
+```bash
+# Configure Interface IP & Management Rights
+config system interface
+    edit port1
+        set mode static
+        set ip 192.168.1.85 255.255.255.252
+        set allowaccess ping http ssh https
+    next
+end
+
+# Verify IP Binding Status
+diagnose ip address list
+```
+</details>
+
+---
+
+
+#### 📸 FortiGate Web GUI Interface Provisioning & Security Zone Binding
 ![FortiGate GUI Interfaces and Zones](./images/fortigate-gui-interfaces-and-zones.png)
+> **Explanation:** FortiGate Web GUI network overview (`Network > Interfaces`) displaying active physical interfaces (`port1`, `port2`, `port3`) assigned to dedicated `/30` Point-to-Point transit subnets. Demonstrates interface consolidation grouping core uplinks (`port2` & `port3`) into a single logical zone (`LAN_Zone`) to streamline firewall policy enforcement.
 
+
+
+---
+
+#### 📸 Ubuntu Server Static IPv4 Network Provisioning on Proxmox VE (VLAN 30)
 ![Ubuntu Server Static IP Installer Config](./images/ubuntu-server-static-ip-installer-config.png)
+> **Explanation:** Proxmox VE noVNC console session configuring static IPv4 network settings for the Ubuntu Server VM (`VMID 101`). Assigns static IP `192.168.1.102/28` on interface `ens18` within the Server Farm subnet (VLAN 30) and points to the HSRP redundant default gateway (`192.168.1.97`).
 
+
+
+---
+
+
+
+#### 📸 Windows Server Active Directory Static Network Provisioning & HSRP Reachability
 ![Windows Server IP Config and Gateway Ping](./images/windows-server-ip-config-and-gateway-ping.png)
+> **Explanation:** Proxmox VE noVNC console session (`VMID 100`) validating Windows Server Domain Controller network parameters (`192.168.1.101/29`). Demonstrates verified IPv4 static address configuration pointing to HSRP Default Gateway (`192.168.1.97`).
 
+---
+
+#### 📸 Windows Server Internet Reachability & End-to-End Connectivity Verification
 ![Windows Server Full Connectivity Ping Test](./images/windows-server-full-connectivity-ping-test.png)
+> **Explanation:** CMD terminal verification on Windows Server (`VMID 100`) confirming successful bidirectional IP communication. Demonstrates end-to-end reachability across internal transit gateways (`192.168.1.1`), external Internet destinations (`8.8.8.8` Google Public DNS).
 
+<details>
+<summary><b>📄 Click to expand Windows Server Ping Audit CLI Commands</b></summary>
+
+```cmd
+# Verify Router, Public Internet, and LAN Reachability
+ping 192.168.1.1
+ping 8.8.8.8
+```
+</details>
+
+---
+
+
+#### 📸 Client End-Host Continuous Internet Reachability Verification (VPCS WAN Audit)
 ![VPC4 Continuous Internet Ping Reachability](./images/vpc4-continuous-internet-ping-reachability.png)
+> **Explanation:** VPCS CLI session on client node `VPC4` verifying continuous outbound Internet reachability via extended ICMP ping operations (`8.8.8.8` Google DNS & `1.1.1.1` Cloudflare DNS). Confirms end-to-end dataplane traversal spanning Access Trunks, Active HSRP Gateway SVI, Core OSPF Routing, FortiGate NAT, and WAN Gateway.
 
+<details>
+<summary><b>📄 Click to expand VPCS Internet Reachability CLI Commands</b></summary>
+
+```bash
+# Verify Outbound Public Internet Reachability
+ping 8.8.8.8 -t
+ping 1.1.1.1 -t
+```
+</details>
+
+---
+
+
+#### 📸 Ubuntu Linux Client End-to-End Traceroute Verification to External Internet
 ![Linux Ubuntu End-to-End Traceroute Internet](./images/Linux%20Ubuntu-end-to-end-traceroute-internet-path.jpg)
+> **Explanation:** Live Linux terminal session on an Ubuntu client node issuing `traceroute 8.8.8.8`. Confirms multi-hop traffic path traversal starting from the internal active HSRP gateway (`192.168.1.35`), hopping through the FortiGate firewall (`192.168.1.82`), passing the Edge Router transit interface (`192.168.1.86`), and successfully traversing the ISP infrastructure to reach Google Public DNS.
 
+<details>
+<summary><b>📄 Click to expand Ubuntu Linux Traceroute CLI Commands</b></summary>
+
+```bash
+# Verify End-to-End Hop-by-Hop Network Path
+traceroute 8.8.8.8
+```
+</details>
+
+
+
+---
 ---
 
 ### 4. Core Dynamic Routing & High Availability (HA)
