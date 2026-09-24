@@ -1,4 +1,4 @@
-<img width="1919" height="1024" alt="image" src="https://github.com/user-attachments/assets/65d88d99-8157-486e-ba34-45212afd6849" /># Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening
+# Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening
 
 Welcome to the detailed technical documentation for **Phase 1**. This phase covers the foundational infrastructure, Layer 2/3 security hardening, core high availability, dynamic routing, boundary security, and device management.
 
