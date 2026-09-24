@@ -1,4 +1,4 @@
-# Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening
+<img width="1919" height="1024" alt="image" src="https://github.com/user-attachments/assets/65d88d99-8157-486e-ba34-45212afd6849" /># Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening
 
 Welcome to the detailed technical documentation for **Phase 1**. This phase covers the foundational infrastructure, Layer 2/3 security hardening, core high availability, dynamic routing, boundary security, and device management.
 
@@ -28,6 +28,7 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 * **Perimeter Defense:** Edge inspection, Dynamic NAT/PAT, and WAN access via FortiGate NGFW.
 * **Infrastructure Protection:** Layer 2 hardening protocols (DHCP Snooping, DAI, Port Security, BPDU Guard).
 
+---
 ---
 ## 🛠️ Technical Highlights & Implementation Scope
 
@@ -85,15 +86,71 @@ ping 192.168.1.50
 </details>
 
 
---
+---
 
 
+#### 📸 LACP EtherChannel Bundle Verification (MLS1 & MLS2 Status)
 ![MLS LACP EtherChannel Status](./images/mls-lacp-etherchannel-status.png)
 
+> **Explanation:** Side-by-side CLI verification using `show etherchannel summary` on MLS1 and MLS2. Confirms active status `Po10(SU)` utilizing LACP protocol with physical member interfaces `Gi1/0(P)` and `Gi1/3(P)` successfully bundled to deliver link redundancy and aggregated throughput.
+
+<details>
+<summary><b>📄 Click to expand LACP EtherChannel Setup & Verification CLI Commands</b></summary>
+
+```bash
+# Core Switches (MLS1 / MLS2) - LACP Port-Channel Provisioning
+interface range GigabitEthernet1/0 , GigabitEthernet1/3
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-group 10 mode active
+ no shutdown
+
+# Operational Verification
+show etherchannel summary
+```
+</details>
+
+---
+
+#### 📸 Rapid-PVST+ Spanning Tree & Root Bridge Load Balancing Configuration
 ![Rapid PVST Root Bridge Config](./images/rapid-pvst-root-bridge-config.png)
+> **Explanation:** Multi-switch CLI execution enforcing `spanning-tree mode rapid-pvst` across all nodes for rapid convergence. Demonstrates STP Root Bridge load distribution; assigning MLS1 as Primary Root (`priority 4096`) for VLANs 10 and 99 and Secondary Root for VLAN 20, while assigning MLS2 as Primary Root for VLAN 20 and Secondary Root (`priority 8192`) for VLANs 10 and 99.
 
+<details>
+<summary><b>📄 Click to expand Rapid-PVST+ Root Bridge CLI Commands</b></summary>
+
+```bash
+# Core & Access Switches - Global Rapid-PVST+ Enablement
+spanning-tree mode rapid-pvst
+
+# MLS1 - Primary Root for VLAN 10,99 | Secondary for VLAN 20
+spanning-tree vlan 10,99 priority 4096
+spanning-tree vlan 20 root secondary
+
+# MLS2 - Primary Root for VLAN 20 | Secondary for VLAN 10,99
+spanning-tree vlan 20 root primary
+spanning-tree vlan 10,99 priority 8192
+
+```
+</details>
+
+#### 📸 Rapid-PVST+ Spanning Tree Root Bridge Alignment & Loop Prevention Verification
 ![Rapid PVST Root Bridge Verification](./images/rapid-pvst-root-bridge-verification.png)
+> **Explanation:** Multi-switch CLI verification using `show spanning-tree` output proving successful Rapid-PVST+ topology calculations. Confirms MLS1 as Active Root Bridge for VLAN 99 (`This bridge is the root`) and MLS2 as Active Root Bridge for VLAN 20, while access switches (SW1, SW2, SW3) dynamically block redundant uplink paths (`Altn BLK`) to prevent Layer 2 loops.
 
+<details>
+<summary><b>📄 Click to expand Spanning Tree Verification CLI Commands</b></summary>
+
+```bash
+# Core & Access Switches - Operational Status Verification
+show spanning-tree vlan 10
+show spanning-tree vlan 20
+show spanning-tree vlan 99
+```
+</details>
+
+
+---
 ---
 
 ### 2. Switching & Layer 2 Security Hardening
