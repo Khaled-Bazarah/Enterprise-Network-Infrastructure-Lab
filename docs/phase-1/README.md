@@ -265,7 +265,7 @@ show logging | include SW_DAI
 ---
 
 #### 📸 DAI Active ARP Poisoning Prevention & Gateway Protection Logs
-![SW2 DAI ARP Poisoning Prevention Logs](./images/sw2-dal-arp-poisoning-prevention-logs.png)
+![SW2 DAI ARP Poisoning Prevention Logs](./images/sw2-dai-arp-poisoning-prevention-logs.png)
 > **Explanation:** Extended Syslog audit on SW2 showing real-time mitigation against spoofed ARP requests targeting VLAN 20 subnets and gateway addresses (`192.168.1.34` & `192.168.1.49`). Validates that all ARP traffic lacking matching bindings in the DHCP Snooping database is blocked to preserve Layer 2 data integrity.
 
 <details>
