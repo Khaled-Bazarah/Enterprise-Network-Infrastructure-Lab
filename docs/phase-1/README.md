@@ -37,6 +37,9 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 ![Multi-Switch Trunk and Access Config](./images/multi-switch-trunk-access-config.png)
 > **Explanation:** Multi-window CLI output showing core and access switch interface provisioning. Demonstrates configuration of 802.1Q encapsulated trunk links (`switchport trunk encapsulation dot1q`), LACP Port-Channel 10 aggregation between MLS1 and MLS2, and static edge access port assignments across SW1, SW2, and SW3.
 
+<details>
+<summary><b>📄 Click to expand Layer 2 Trunking & Access Interface CLI Commands</b></summary>
+
 ```bash
 # Core Switches (MLS1 / MLS2) - Inter-Switch Port-Channel Trunking
 interface Port-Channel10
