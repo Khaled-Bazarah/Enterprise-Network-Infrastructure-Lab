@@ -152,23 +152,135 @@ show spanning-tree vlan 99
 </details>
 
 
+
+
+
 ---
 ---
+
+
 
 ### 2. Switching & Layer 2 Security Hardening
 
+#### 📸 Native VLAN Isolation & Security Hardening (VLAN Hopping Mitigation)
 ![SW1 Native VLAN Security Hardening](./images/sw1-native-vlan-security-hardening.png)
+> **Explanation:** CLI execution on SW1 establishing a dedicated black-hole Native VLAN (`vlan 999 Native_Vlan`) and reassigning trunk uplinks using `switchport trunk native vlan 999`. This neutralizes Default Native VLAN 1 exploitation risks, mitigating VLAN Hopping and Double-Tagging attack vectors across trunk connections.
 
+<details>
+<summary><b>📄 Click to expand Native VLAN Security Hardening CLI Commands</b></summary>
+
+```bash
+# Create Isolated Native VLAN
+vlan 999
+ name Native_Vlan
+
+# Assign to Trunk Interfaces
+interface range GigabitEthernet0/0 - 1
+ switchport trunk native vlan 999
+```
+</details>
+
+---
+
+#### 📸 Edge Port Security, BPDU Guard & Sticky MAC Hardening
 ![SW1 Port Security and BPDU Guard Config](./images/sw1-port-security-and-bpduguard-config.png)
+> **Explanation:** CLI interface range configuration on SW1 enforcing Layer 2 access port hardening. Enforces `spanning-tree portfast` for fast link transition, `spanning-tree bpduguard enable` to block unauthorized switch insertions, and `switchport port-security` capped at a maximum of 2 sticky MAC addresses with `restrict` violation action.
 
+<details>
+<summary><b>📄 Click to expand Port Security & BPDU Guard CLI Commands</b></summary>
+
+```bash
+# Edge Access Port Security Hardening
+interface range GigabitEthernet0/2 - 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security violation restrict
+ switchport port-security mac-address sticky
+```
+</details>
+
+---
+
+#### 📸 Comprehensive STP Security Framework (Root Guard, BPDU Guard & PortFast Enforcement)
 ![STP Security RootGuard BPDUGuard PortFast Config](./images/stp-security-rootguard-bpduguard-portfast-config.png)
+> **Explanation:** Multi-switch CLI execution deploying full Spanning Tree defense protocols. Displays `spanning-tree guard root` configured on core links (MLS1 & MLS2) to prevent unauthorized Root Bridge hijacking, alongside `spanning-tree portfast` and `spanning-tree bpduguard enable` enforced on access switch edge interfaces (SW1, SW2, SW3) to block unauthorized switch insertions.
 
+<details>
+<summary><b>📄 Click to expand Spanning Tree Security Hardening CLI Commands</b></summary>
+
+```bash
+# Core Switches (MLS1 / MLS2) - Enable Root Guard
+interface range GigabitEthernet0/1 - 2 , GigabitEthernet1/1
+ spanning-tree guard root
+
+# Access Switches (SW1 / SW2 / SW3) - Enable BPDU Guard & PortFast
+interface range GigabitEthernet0/2 - 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+```
+</details>
+
+---
+
+#### 📸 DHCP Snooping & Dynamic ARP Inspection (DAI) Security Enforcement
 ![SW1 DHCP Snooping and DAI Config](./images/sw1-dhcp-snooping-and-dai-config.png)
+> **Explanation:** CLI execution on SW1 implementing Layer 2 mitigation against Rogue DHCP servers and ARP Poisoning attacks. Enables `ip dhcp snooping` and `ip arp inspection` on VLAN 10 while establishing explicit trust boundaries (`ip dhcp snooping trust` and `ip arp inspection trust`) across trunk uplinks connected toward the core layer.
 
-![SW2 DAI ARP Poisoning Prevention Logs](./images/sw2-dai-arp-poisoning-prevention-logs.png)
+<details>
+<summary><b>📄 Click to expand DHCP Snooping & DAI CLI Commands</b></summary>
 
+```bash
+# Global & VLAN Enablement
+ip dhcp snooping
+ip dhcp snooping vlan 10
+ip arp inspection vlan 10
+
+# Configure Trusted Uplinks
+interface range GigabitEthernet0/0 - 1
+ ip dhcp snooping trust
+ ip arp inspection trust
+```
+</details>
+
+---
+
+#### 📸 Dynamic ARP Inspection (DAI) Active Mitigation & Invalid ARP Denial Logs
 ![SW2 DAI Invalid ARP Mitigation Logs](./images/sw2-dai-invalid-arp-mitigation-logs.png)
+> **Explanation:** Live Syslog security execution on SW2 displaying active packet suppression (`%SW_DAI-4-DHCP_SNOOPING_DENY`). Verifies that unauthorized ARP requests failing match against the trusted DHCP Snooping binding table on VLAN 20 are dynamically dropped to prevent Man-in-the-Middle (MitM) ARP poisoning attacks.
 
+<details>
+<summary><b>📄 Click to expand DAI Mitigation Verification CLI Commands</b></summary>
+
+```bash
+# Verify DAI Statistics & Active Security Violations
+show ip arp inspection statistics
+show logging | include SW_DAI
+```
+</details>
+
+---
+
+#### 📸 DAI Active ARP Poisoning Prevention & Gateway Protection Logs
+![SW2 DAI ARP Poisoning Prevention Logs](./images/sw2-dal-arp-poisoning-prevention-logs.png)
+> **Explanation:** Extended Syslog audit on SW2 showing real-time mitigation against spoofed ARP requests targeting VLAN 20 subnets and gateway addresses (`192.168.1.34` & `192.168.1.49`). Validates that all ARP traffic lacking matching bindings in the DHCP Snooping database is blocked to preserve Layer 2 data integrity.
+
+<details>
+<summary><b>📄 Click to expand DAI Security Audit CLI Commands</b></summary>
+
+```bash
+# Verify Active Log Events and Inspections
+show logging | include SW_DAI
+show ip arp inspection vlan 20
+```
+</details>
+
+
+
+---
 ---
 
 ### 3. Addressing, Layer 3 Switching & Inter-VLAN Routing
