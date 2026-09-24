@@ -1,120 +1,132 @@
 # Enterprise Multi-Tier Network & Infrastructure Architecture Lab 🚀
 
-Welcome to the repository for my **Enterprise Network & Systems Infrastructure Lab**. This project showcases a multi-tiered, highly available, and secure enterprise-grade topology emulated in **EVE-NG** and integrated with a physical bare-metal **Proxmox VE** hypervisor node over a physical Ethernet link.
+<div align="center">
+
+![EVE-NG](https://img.shields.io/badge/Emulation-EVE--NG-orange?style=for-the-badge&logo=qemu)
+![Proxmox](https://img.shields.io/badge/Hypervisor-Proxmox%20VE-E57008?style=for-the-badge&logo=proxmox)
+![Cisco](https://img.shields.io/badge/Networking-Cisco%20vIOS-1BA0D7?style=for-the-badge&logo=cisco)
+![Fortinet](https://img.shields.io/badge/Security-FortiGate%20NGFW-red?style=for-the-badge&logo=fortinet)
+![Status](https://img.shields.io/badge/Phase%201-Completed-brightgreen?style=for-the-badge)
+
+</div>
 
 ---
 
-## 📐 Network Topology & Physical Lab Architecture
+This repository documents the end-to-end design, implementation, and hardening of a multi-tiered, highly available, and secure enterprise-grade hybrid infrastructure. The network core and security boundary are emulated in **EVE-NG**, seamlessly integrated with a physical bare-metal **Proxmox VE** hypervisor host via a physical trunk link.
+
+---
+
+## 📑 Table of Contents
+- [Architecture & Topology](#-architecture--topology)
+- [Hardware & Hybrid Integration](#-hardware--hybrid-integration)
+- [Software & Tooling Stack](#️-software--tooling-stack)
+- [Technical Highlights & Security Hardening](#-technical-highlights--security-hardening)
+- [Project Roadmap](#-project-roadmap)
+- [Detailed IP Addressing Architecture](#-detailed-ip-addressing-architecture)
+- [Author & Contact](#-author--contact)
+
+---
+
+## 📐 Architecture & Topology
 
 ![Enterprise Network Topology](./docs/topologies/topology.png)
 
-### **Physical Hardware & Hybrid Setup Overview:** 
-> - **Primary Laptop:** Hosts **VMware Workstation Pro** running the **EVE-NG** emulation environment.
-> - **Secondary Laptop:** Deployed as a bare-metal **Proxmox VE Hypervisor** using a bootable USB created with **Rufus** to utilize full hardware performance. Hosts virtualized **Windows Server** (Domain Controller) and **Ubuntu Server** (Zabbix Monitoring).
-> - **Physical Interconnect:** Both laptops are physically bridged via an **Ethernet Cable (LAN)**, seamlessly linking Proxmox virtual machines directly into EVE-NG's **Server VLAN 30**.
+---
+
+## 💻 Hardware & Hybrid Integration
+
+| Host Device | Deployment Type | Role & Hosted Services | Physical Link |
+| :--- | :--- | :--- | :--- |
+| **Primary Workstation** | VMware Workstation Pro | Runs **EVE-NG** (Cisco Core/Access Switches, vIOS Edge, FortiGate) | Bridged via Physical Ethernet |
+| **Secondary Workstation** | Bare-Metal Hypervisor | Runs **Proxmox VE** (Hosting Windows Server DC & Ubuntu Zabbix) | Linked into EVE-NG **Server VLAN 30** |
 
 ---
 
-## 🛠️ Software, OS Images & Administrative Tools
+## 🛠️ Software & Tooling Stack
 
-* **Network Devices & Firewalls:**
-  * **Cisco Systems:** Official Cisco `vIOS` (Router) and `vIOS-L2` (Access & Multi-Layer Switches) images.
-  * **Fortinet:** **FortiGate NGFW** (FortiOS) image.
-* **Host & Server Systems:**
-  * **Hypervisor:** **Proxmox VE** (Flashed using **Rufus** for bare-metal installation).
-  * **Virtual Servers:** Windows Server & Ubuntu Server (running on Proxmox VE).
-  * **Endpoints:** Windows 10 Desktop & Ubuntu Linux Client.
-* **Management & Administration Tools:**
-  * **Proxmox VE Management:** Administered via **Proxmox Web GUI** for VM creation/resource allocation and **Proxmox Terminal / Shell (CLI)** for  networking, and package configurations.
-  * **FortiGate Management:** Dual management via **Web GUI (HTTPS)** for security policy visual configuration and **CLI (SSH)** for advanced network routing and system administration.
-  * **Remote Access & CLI:** **PuTTY** and **MobaXterm** for SSH/Console session management across Cisco & Linux nodes.
-  * **File Transfer:** **WinSCP** for transferring images, configurations, and scripts.
-
----
-
-## 💡 Key Technical Highlights & Implemented Protocols
-
-* **Addressing & Subnetting (VLSM):** Efficient IP allocation using `/27`, `/28`, and `/30` subnets to optimize address space and separate departments.
-* **Layer 3 Switching & Inter-VLAN Routing:**
-  * Enabled global **IP Routing** (`ip routing`) on Multi-Layer Switches (`MLS1` & `MLS2`).
-  * Configured **Switch Virtual Interfaces (SVIs)** across all VLANs (`VLAN 10, 20, 30, 99`) to allow MLS devices to function as Layer 3 core gateways and perform high-speed line-rate Inter-VLAN routing.
-* **Routing & Redundancy:**
-  * **OSPF Area 0 (Process ID 1):** Configured across MLS1, MLS2, and FortiGate with dedicated `/32` Loopback Router IDs (`10.10.10.1` to `10.10.10.3`).
-  * **HSRP Gateway Redundancy & Load Balancing:** Active/Standby state distribution with preemption enabled.
-  * **Rapid PVST+ & STP Root Load Balancing:** Dual Root Bridge configuration matching HSRP active roles.
-  * **Link Aggregation:** LACP EtherChannel (`Port-Channel 1`) trunks carrying explicitly allowed VLANs.
-* **Switching & Layer 2/3 Hardening:**
-  * **Unused Port Security (Physical Protection):** Manually disabled all unused/inactive switchports (`shutdown`) across Access and Core switches to block unauthorized physical connections.
-  * Strict Access/Trunk encapsulation with dedicated Native VLAN 999 to mitigate VLAN Hopping.
-  * **Port Security:** Maximum MAC limits, restricting violations, and `sticky` MAC learning.
-  * **Spanning Tree Security:** `PortFast` and `BPDU Guard` enabled on end-user access ports.
-  * **Snooping & Spoofing Mitigation:** `DHCP Snooping` and `Dynamic ARP Inspection (DAI)` on untrusted interfaces.
-* **Boundary Security & Edge Protection:**
-  * **FortiGate NGFW & Edge Router:** Configured IPv4 Security Policies, Dynamic NAT/PAT, and UTM Profiles for secure internet access via Web GUI & CLI.
-  * **Default Internet Routing:** Configured Static **Default Route** (`0.0.0.0 0.0.0.0`) pointing to the ISP upstream interface on the Edge device to provide full internet outbound reachability for all internal subnets.
-  * **Traffic Filtering & Control Plane Security:** Applied Access Control Lists (ACLs) and Control Plane Policing (CoPP) on edge routing interfaces for infrastructure protection and DoS mitigation.
-* **Device Hardening & Line Security:** Local user accounts with `secret` passwords, `service password-encryption`, SSH v2 with RSA key pairs, line console/vty hardening, and dedicated Out-of-Band Management (VLAN 99).
+* **Infrastructure & Security:**
+  * **Cisco Systems:** Cisco `vIOS` (Layer 3 Routing) & `vIOS-L2` (Core/Access Switching)
+  * **Fortinet:** **FortiGate NGFW** (FortiOS)
+* **Compute & Virtualization:**
+  * **Hypervisor:** Proxmox VE (Bare-metal deployment via Rufus)
+  * **Directory & Monitoring Servers:** Windows Server (AD DS, DNS), Ubuntu Server (Zabbix Node)
+  * **Endpoints:** Windows 10 Enterprise & Ubuntu Desktop
+* **Operations & Administration:**
+  * **Management Interfaces:** Proxmox Web GUI / CLI, FortiGate HTTPS GUI / SSH
+  * **Terminal & Access:** PuTTY, MobaXterm (SSH & Console)
+  * **File Systems & Artifacts:** WinSCP (Configuration, SCP, Script deployment)
 
 ---
 
-## 🚀 Implementation Roadmap & Status
+## 💡 Technical Highlights & Security Hardening
 
-* ✅ **Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening**
-* 👉 **[View Full Phase 1 Detailed Documentation, IP Tables & Configurations](./docs/phase-1/README.md)**
-* ⏳ **Phase 2: Active Directory Services, Identity, DNS, DHCP & GPO Integration**
-* ⏳ **Phase 3: Centralized Infrastructure Monitoring (Zabbix & Deep Packet Inspection)**
-* ⏳ **Phase 4: Disaster Recovery & Automated Enterprise Backup (Veeam)**
-* ⏳ **Phase 5: Secure Remote Work (FortiGate SSL-VPN & Multi-Factor Authentication)**
+### 🌐 Routing, Switching & High Availability
+* **VLSM Subnet Allocation:** Optimally sized subnets (`/27`, `/28`, `/30`) separating internal departments, management, and server tiers.
+* **Layer 3 Core Inter-VLAN Routing:** Global `ip routing` with Switch Virtual Interfaces (SVIs) on `MLS1` and `MLS2`.
+* **Dynamic Routing (OSPF Area 0):** Full dynamic routing across Core MLS switches and FortiGate with dedicated `/32` Loopback IDs (`10.10.10.1`–`10.10.10.3`).
+* **HSRP Gateway Redundancy:** Active/Standby VIP active state distribution across Core switches with preemption.
+* **Rapid PVST+ Alignment:** Spanning Tree Root Bridge primary/secondary roles aligned directly with HSRP active paths.
+* **Link Aggregation:** LACP EtherChannel (`Port-Channel 1`) trunks carrying strictly allowed VLANs.
+
+### 🛡️ Layer 2/3 Defense & Security Hardening
+* **Unused Interface Isolation:** All inactive ports manually disabled (`shutdown`) and assigned to an isolated blackhole VLAN.
+* **VLAN Security:** Dedicated Native VLAN (`VLAN 999`) across all trunk interfaces to mitigate VLAN Hopping.
+* **Access Hardening:** `Port Security` (Sticky MACs, strict maximum limits), `BPDU Guard`, and `PortFast` on user ports.
+* **Mitigation Protocols:** `DHCP Snooping` and `Dynamic ARP Inspection (DAI)` enforced across untrusted access ports.
+* **Edge & Plane Security:** Dynamic NAT/PAT, static upstream default routes (`0.0.0.0/0`), ACLs, Control Plane Policing (CoPP), and Local Credential Encryption with SSH v2.
 
 ---
 
-## 📝 Detailed IP Addressing & Subnet Architecture
+## 🚀 Project Roadmap
 
-### 1. VLAN & Gateway Redundancy Scheme (HSRP & STP Roles)
+- [x] **Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening**
+  * *See [Phase 1 Detailed Documentation, IP Tables & CLI Artifacts](./docs/phase-1/README.md)*
+- [ ] **Phase 2: Active Directory Services, Identity, DNS, DHCP & GPO Integration**
+- [ ] **Phase 3: Centralized Infrastructure Monitoring (Zabbix & SNMP Traps)**
+- [ ] **Phase 4: Disaster Recovery & Enterprise Automated Backups (Veeam)**
+- [ ] **Phase 5: Remote Access Architecture (FortiGate SSL-VPN & MFA)**
 
-| VLAN ID | Subnet / Mask | Department / Purpose | HSRP VIP | MLS1 Role & IP | MLS2 Role & IP | STP Root Role |
+---
+
+## 📝 Detailed IP Addressing Architecture
+
+### 1. VLAN & Redundancy Scheme
+
+| VLAN ID | Subnet / Mask | Department | HSRP VIP | MLS1 Role & SVI | MLS2 Role & SVI | STP Root Status |
 | :---: | :---: | :--- | :---: | :--- | :--- | :--- |
-| **VLAN 10** | `192.168.1.0/27` | Engineers | `192.168.1.1` | **Active (Pri 110)** - `192.168.1.2` | **Standby (Pri 100)** - `192.168.1.3` | **MLS1 Primary Root** |
-| **VLAN 20** | `192.168.1.32/28` | HR | `192.168.1.33` | **Standby (Pri 100)** - `192.168.1.34` | **Active (Pri 110)** - `192.168.1.35` | **MLS2 Primary Root** |
-| **VLAN 99** | `192.168.1.48/28` | Management (OOB) | `192.168.1.49` | **Active (Pri 110)** - `192.168.1.50` | **Standby (Pri 100)** - `192.168.1.51` | **MLS1 Primary Root** |
-| **VLAN 30** | `192.168.1.96/28` | Server Farm | `192.168.1.97` | **Standby (Pri 100)** - `192.168.1.98` | **Active (Pri 110)** - `192.168.1.99` | **MLS2 Primary Root** |
+| **VLAN 10** | `192.168.1.0/27` | Engineers | `192.168.1.1` | **Active (Pri 110)** - `.2` | **Standby (Pri 100)** - `.3` | MLS1 Primary |
+| **VLAN 20** | `192.168.1.32/28` | HR | `192.168.1.33` | **Standby (Pri 100)** - `.34` | **Active (Pri 110)** - `.35` | MLS2 Primary |
+| **VLAN 99** | `192.168.1.48/28` | Management (OOB) | `192.168.1.49` | **Active (Pri 110)** - `.50` | **Standby (Pri 100)** - `.51` | MLS1 Primary |
+| **VLAN 30** | `192.168.1.96/28` | Server Farm | `192.168.1.97` | **Standby (Pri 100)** - `.98` | **Active (Pri 110)** - `.99` | MLS2 Primary |
 
-> **Native VLAN:** `VLAN 999` (Used exclusively across all trunks for security).
+> **Native VLAN:** `VLAN 999` (Restricted to Trunk Encapsulation).
 
 ---
 
-### 2. Infrastructure & Host Static IP Assignments
+### 2. Infrastructure & Dedicated Host Assignments
 
-* **Out-of-Band Switch Management (VLAN 99 - `192.168.1.48/28`):**
-  * `SW1 SVI`: `192.168.1.52/28`
-  * `SW2 SVI`: `192.168.1.53/28`
-  * `SW3 SVI`: `192.168.1.54/28`
-
-* **Server Farm Infrastructure (VLAN 30 - `192.168.1.96/28`):**
-  * `Proxmox Hypervisor Host`: `192.168.1.100/28`
+* **Out-of-Band Switch Management (VLAN 99):**
+  * `SW1 SVI`: `192.168.1.52/28` | `SW2 SVI`: `192.168.1.53/28` | `SW3 SVI`: `192.168.1.54/28`
+* **Server Infrastructure Tier (VLAN 30):**
+  * `Proxmox VE Hypervisor Host`: `192.168.1.100/28`
   * `Windows Server (Domain Controller)`: `192.168.1.101/28`
-  * `Ubuntu Server (Zabbix Monitoring)`: `192.168.1.102/28`
-
-* **End-User Testing Hosts:**
-  * `Windows 10 PC (VLAN 10)`: Assigned static IP within `192.168.1.0/27` range.
-  * `Ubuntu Linux PC (VLAN 20)`: Assigned static IP within `192.168.1.32/28` range.
+  * `Ubuntu Server (Zabbix Node)`: `192.168.1.102/28`
+* **End-User Workstations:**
+  * `Windows 10 PC (VLAN 10)`: Static IP in `192.168.1.0/27` range
+  * `Ubuntu Linux PC (VLAN 20)`: Static IP in `192.168.1.32/28` range
 
 ---
 
-### 3. OSPF Area 0 Infrastructure & Point-to-Point Links (`/30` Subnets)
+### 3. Point-to-Point Interconnects & OSPF Boundaries (`/30` Subnets)
 
-* **MLS1 Router ID:** `10.10.10.1` | **MLS2 Router ID:** `10.10.10.2`
-* **FortiGate Router ID:** `10.10.10.3` | **vIOS Router ID:** `10.10.10.4`
+* **Router IDs:** MLS1 (`10.10.10.1`) | MLS2 (`10.10.10.2`) | FortiGate (`10.10.10.3`) | Edge Router (`10.10.10.4`)
 
-
-* **MLS1 ↔ FortiGate:** `192.168.1.76/30`
-  * MLS1 (`Gi0/0`): `192.168.1.77` | FortiGate (`port2`): `192.168.1.78`
-* **MLS2 ↔ FortiGate:** `192.168.1.80/30`
-  * MLS2 (`Gi0/0`): `192.168.1.81` | FortiGate (`port3`): `192.168.1.82`
-* **FortiGate ↔ Edge Router (vIOS):** `192.168.1.84/30`
-  * FortiGate (`port1`): `192.168.1.85` | vIOS (`Gi0/1`): `192.168.1.86`
-* **Edge Router WAN / Internet Interface:**
-  * vIOS Router (`Gi0/0`): `192.168.8.250` (External WAN Interface connecting to ISP / Net Cloud)
+| Link Path | Local Interface & IP | Remote Interface & IP | Subnet |
+| :--- | :--- | :--- | :---: |
+| **MLS1 ↔ FortiGate** | MLS1 `Gi0/0` (`192.168.1.77`) | FortiGate `port2` (`192.168.1.78`) | `192.168.1.76/30` |
+| **MLS2 ↔ FortiGate** | MLS2 `Gi0/0` (`192.168.1.81`) | FortiGate `port3` (`192.168.1.82`) | `192.168.1.80/30` |
+| **FortiGate ↔ Edge Router** | FortiGate `port1` (`192.168.1.85`) | vIOS `Gi0/1` (`192.168.1.86`) | `192.168.1.84/30` |
+| **Edge Router ↔ WAN** | vIOS `Gi0/0` (`192.168.8.250`) | Upstream ISP Gateway | Dynamic / External |
 
 ---
 
@@ -122,6 +134,6 @@ Welcome to the repository for my **Enterprise Network & Systems Infrastructure L
 
 **Khaled Bazarah**  
 *Computer & Network Engineer*  
-* Certified: Cisco Certified Network Associate (CCNA 200-301)  
-* Accredited Computer Engineer – Saudi Council of Engineers  
+* **Certification:** Cisco Certified Network Associate (CCNA 200-301)  
+* **Accreditation:** Computer Engineer – Saudi Council of Engineers (SCE)  
 * 🔗 [LinkedIn Profile](https://www.linkedin.com/in/10khaled-bazarah)
