@@ -525,43 +525,178 @@ ping 192.168.1.51
 ```
 </details>
 
-
+---
 ---
 
 ### 5. Boundary Security, NAT & Edge Protection
 
+#### 📸 FortiGate Web GUI Outbound IPv4 Firewall Policy & Dynamic NAT Provisioning
 ![FortiGate GUI Firewall Policy NAT](./images/fortigate-gui-firewall-policy-nat.png)
 
-![vIOS Edge NAT PAT Config](./images/vios-edge-nat-pat-config.png)
-
-![Edge Router NAT ACL Matches Verification](./images/edge-router-nat-acl-matches-verification.png)
-
-![Edge Router CoPP ICMP Policing Config](./images/edge-router-copp-icmp-policing-config.png)
+> **Explanation:** FortiGate Web GUI Policy engine (`Policy & Objects > Firewall Policy`) enforcing policy rule `LAN_TO_INTERNET`. Permits traffic originating from core aggregate ingress interfaces (`port2` & `port3`) routed out through egress interface (`port1`). Enforces Dynamic Source NAT (`NAT Enabled`) to map internal private VLAN IP addresses for public WAN routing, coupled with active traffic session logging.
 
 ---
 
+#### 📸 Edge Router Interface Boundary Definition & Dynamic NAT Overload (PAT) Provisioning
+![vIOS Edge NAT PAT Config](./images/vios-edge-nat-pat-config.png)
+> **Explanation:** CLI provisioning session on `Router1` (vIOS) establishing Port Address Translation (PAT) boundary dynamics. Configures perimeter interfaces (`g0/0` as `ip nat outside` and `g0/1` as `ip nat inside`), defines internal ACL filter matching `192.168.1.0/24`, and applies `ip nat inside source list 1 interface g0/0 overload` to permit multiplexed internet outbound access.
+
+<details>
+<summary><b>📄 Click to expand Edge Router PAT CLI Commands</b></summary>
+
+```bash
+# Perimeter Interface NAT Direction Assignment
+interface GigabitEthernet0/0
+ ip nat outside
+
+interface GigabitEthernet0/1
+ ip nat inside
+
+# Standard ACL Matching LAN Subnets
+access-list 1 permit 192.168.1.0 0.0.0.255
+
+# Apply Dynamic Port Address Translation (PAT)
+ip nat inside source list 1 interface GigabitEthernet0/0 overload
+```
+</details>
+
+---
+
+#### 📸 Edge Router Control Plane Policing (CoPP) & ICMP Rate-Limiting Hardening
+![Edge Router CoPP ICMP Policing Config](./images/edge-router-copp-icmp-policing-config.png)
+> **Explanation:** MQC CLI configuration session on `Edge_Router` enforcing Control Plane Policing (CoPP). Classifies CPU-bound ICMP traffic via `class-map ICMP-TRAFFIC`, enforces aggressive rate-limiting policing (`police 8000 conform-action transmit exceed-action drop`) within `policy-map COPP-POLICY`, and binds the policy to the router's `control-plane` interface to shield the Control Processor from ICMP flood attacks and Denial-of-Service (DoS) exploits.
+
+<details>
+<summary><b>📄 Click to expand Edge Router CoPP Security CLI Commands</b></summary>
+
+```bash
+# Define ICMP Inspection ACL
+access-list 100 permit icmp any any
+
+# MQC Class-Map Configuration
+class-map match-all ICMP-TRAFFIC
+ match access-group 100
+exit
+
+# MQC Policy-Map Rate Limiting
+policy-map COPP-POLICY
+ class ICMP-TRAFFIC
+  police 8000 conform-action transmit exceed-action drop
+ exit
+exit
+
+# Bind Policy to Control Plane Subsystem
+control-plane
+ service-policy input COPP-POLICY
+exit
+```
+</details>
+
+
+
+---
+---
+
+
+
 ### 6. Device Hardening & Infrastructure Management
 
+#### 📸 EVE-NG Emulator Virtual Machine Hardware Provisioning & VMnet Binding (VMware Workstation)
 ![EVE-NG VM Settings](./images/eve-ng-vm-settings.png)
+> **Explanation:** VMware Workstation management view illustrating hardware specifications for the primary EVE-NG emulation node. Confirms allocation of 8.0 GB RAM, 3 vCPUs with nested virtualization support, a 300 GB virtual storage drive, and dual custom network adapters (`VMnet0` Bridged and `VMnet1` Host-Only) enabling external integration with physical lab equipment and Proxmox hypervisors.
 
+---
+
+#### 📸 EVE-NG Emulation Server CLI Bootup & Web Management Interface IP Binding
 ![EVE-NG VMware Console](./images/eve-ng-vmware-console.png)
+> **Explanation:** EVE-NG Linux CLI console banner (Ubuntu 22.04 LTS) running under VMware Workstation. Confirms active root system authentication and displays the web management IP binding on bridge interface `pnet0` (`192.168.8.126`), enabling HTTP/HTTPS web GUI connectivity for dynamic topology creation and multi-vendor device control.
 
+---
+
+#### 📸 WinSCP SFTP Management Session & EVE-NG Node Image Repository Provisioning
 ![EVE-NG SFTP WinSCP Connection](./images/eve-ng-sftp-winscp-connection.png)
 
+> **Explanation:** WinSCP SFTP client interface initializing a secure SSH/SFTP session to the EVE-NG server (`192.168.8.136:22`). Illustrates local file staging on `D:\` containing multi-vendor appliances (such as FortiGate KVM/QEMU images and Cisco vIOS) prior to directory transfer into `/opt/unetlab/addons/qemu/` for emulator instantiation.
+
+---
+
+#### 📸 EVE-NG QEMU Appliance Directory Staging & Cisco vIOS Image Deployment (WinSCP SFTP)
 ![EVE-NG QEMU Images Directory Structure](./images/eve-ng-qemu-images-directory-structure.png)
+> **Explanation:** WinSCP SFTP file manager connected to EVE-NG (`root@192.168.8.136`) navigating the core QEMU storage path (`/opt/unetlab/addons/qemu/`). Demonstrates structured directory staging for multi-vendor network images including Cisco vIOS L3 (`vios-adventerprisek9-m...`), Cisco vIOS L2 (`viosl2-adventerprisek9-m...`), FortiGate firewalls (`fortinet-v7.0.5` / `fortinet-v7.0.12`), and endpoint client OS images (`win10`).
 
+<details>
+<summary><b>📄 Click to expand EVE-NG QEMU Deployment & Fixpermissions CLI Commands</b></summary>
+
+```bash
+# Directory Creation Example for Cisco vIOS L3 Router Image
+mkdir -p /opt/unetlab/addons/qemu/vios-adventerprisek9-m.SPA.159-3.M6
+
+# Execute EVE-NG Permission Repair Utility Post-Upload
+/opt/unetlab/wrappers/unl_wrapper -a fixpermissions
+```
+</details>
+
+---
+
+#### 📸 Proxmox VE Datacenter Management Console & Automated Bulk Task Audit
 ![Proxmox VE Web Management Dashboard](./images/proxmox-ve-web-management-dashboard.png)
+> **Explanation:** Proxmox VE Web Management UI (`https://192.168.1.100:8006`) highlighting node `pve` Datacenter options and local storage volumes (`local` and `local-lvm`). Bottom task panel validates successful execution (`Status OK`) of automated hypervisor bulk operational commands (`Bulk start/shutdown VMs and Containers`), proving compute readiness for enterprise host infrastructure.
 
-![Proxmox Windows Server VM Summary](./images/proxmox-windows-server-vm-summary.png)
+---
 
+#### 📸 Windows Server Initial OOBE Provisioning & Administrator Password Configuration (Proxmox VE)
 ![Windows Server OOBE Administrator Setup](./images/windows-server-oobe-administrator-setup.png)
+> **Explanation:** Proxmox VE noVNC console session (`WinServer` VMID 100) completing the Windows Server Out-Of-Box Experience (OOBE) setup phase. Demonstrates setting local `Administrator` credentials prior to domain promotion, role installation (AD DS & DHCP), and Static IP assignment on Server Farm VLAN 30.
 
+---
+
+#### 📸 Zabbix Monitoring Server Console Bootup, Cloud-Init Staging & Static IP Verification
 ![Ubuntu Zabbix Server Post Install Console](./images/ubuntu-zabbix-server-post-install-console.jpg)
+> **Explanation:** Proxmox VE console view displaying the initialization of the Ubuntu-based Zabbix Monitoring Server (`khaled@zabbix`). Confirms network interface `ens18` static IP binding (`192.168.1.102`), optimal hardware resource utilization, and successful execution of Cloud-Init scripts alongside SSH host key fingerprint generation for secure remote telemetry collection.
+
+---
 
 ![MLS SSH Hardening Config](./images/mls-ssh-hardening-config.png)
+#### 📸 Core Multi-Layer Switch Base Device Provisioning, Local AAA & SSH v2 Hardening
+![MLS SSH Hardening Config](./images/mls-ssh-hardening-config.png)
+> **Explanation:** Side-by-side CLI session on core layer switches MLS1 and MLS2 enforcing baseline security protocols. Configures local privilege level 15 admin accounts (`service password-encryption`), defines domain `kob.local` to generate 2048-bit RSA encryption keys (`crypto key generate rsa modulus 2048`), and locks down Line Console/VTY access (`exec-timeout 10 0`, `transport input ssh`, `login local`) to eliminate unencrypted clear-text Telnet vulnerabilities.
 
+<details>
+<summary><b>📄 Click to expand Core Switch SSH & AAA Hardening CLI Commands</b></summary>
+
+```bash
+# Set Hostname & Admin AAA Credentials
+hostname MLS1
+username admin privilege 15 password khale_d10
+service password-encryption
+
+# Crypto RSA Key & SSH v2 Activation
+ip domain-name kob.local
+crypto key generate rsa modulus 2048
+ip ssh version 2
+
+# Secure Line Console 0
+line console 0
+ exec-timeout 10 0
+ login local
+exit
+
+# Secure Line VTY 0-15 (Restrict to SSH Only)
+line vty 0 15
+ exec-timeout 10 0
+ transport input ssh
+ login local
+exit
+```
+</details>
+
+---
+
+
+
+#### 📸 FortiGate Web GUI Dashboard, Hardware Provisioning & System Status Audit
 ![FortiGate GUI Dashboard Status](./images/fortigate-gui-dashboard-status.png)
-
+> **Explanation:** FortiGate Web Management Console (`Dashboard > Status`) displaying core system metrics for virtual firewall instance `FortiFirewall-VM64-KVM` running FortiOS v7.0.12. Validates KVM hypervisor hardware allocation (1 vCPU, 2 GB RAM with 49% utilization), current CPU load metrics, and active admin sessions (Console/HTTP) across the perimeter firewall boundary.
 
 ---
 
