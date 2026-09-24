@@ -4,16 +4,24 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 
 ---
 
-## 📐 Phase 1 Network Topology & Overview
+## 📐 Phase 1 Network Topology & Architecture Scope
 
 ![Phase 1 Network Topology](../../docs/topologies/topology.png)
 
 > [!NOTE]
-> **Phase 1 Scope:** This documentation details the implementation of the core network foundation, Layer 2/3 redundancy, edge firewall integration, and baseline device hardening.
+> **Implementation Scope:** This document details the baseline configuration, command-line interface (CLI) outputs, topology logic, and validation steps for the core network foundation and security edge.
+
+### 📊 Quick Technical Summary
+| Domain | Implementation Standard |
+| :--- | :--- |
+| **Dynamic Routing** | Single-Area OSPF (Area 0) with dedicated `/32` Loopback IDs |
+| **High Availability** | HSRP Gateway Redundancy paired with Rapid PVST+ Root Alignment |
+| **Layer 2 Hardening** | DHCP Snooping, DAI, Port Security, Native VLAN 999 Isolation |
+| **Edge Defense** | FortiGate NGFW Stateful Inspection, Dynamic PAT & CoPP |
 
 ---
 
-## 🎯 Key Phase 1 Objectives
+## 🎯 Key Objectives & Engineering Goals
 * **Core Resiliency:** Elimination of single points of failure via HSRP and Rapid PVST+.
 * **Dynamic Routing:** Single-Area OSPF (Area 0) for core-to-firewall route propagation.
 * **Network Segmentation & VLSM:** Efficient IP subnetting and VLAN separation across departments (Engineering, HR, Server Farm, Management) for strict traffic isolation and scalable Inter-VLAN routing.
