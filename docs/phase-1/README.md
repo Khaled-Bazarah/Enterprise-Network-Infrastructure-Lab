@@ -29,15 +29,15 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 * **Infrastructure Protection:** Layer 2 hardening protocols (DHCP Snooping, DAI, Port Security, BPDU Guard).
 
 ---
-
 ## 🛠️ Technical Highlights & Implementation Scope
+
 ### 1. Layer 2 Switching, Trunking & Link Aggregation
 
 ![Multi-Switch Trunk and Access Config](./images/multi-switch-trunk-access-config.png)
 
-![MLS LACP EtherChannel Status](./images/mls-lacp-etherchannel-status.png)
-
 ![VLAN Database and Ping Test](./images/vlan-database-and-ping-test.png)
+
+![MLS LACP EtherChannel Status](./images/mls-lacp-etherchannel-status.png)
 
 ![Rapid PVST Root Bridge Config](./images/rapid-pvst-root-bridge-config.png)
 
@@ -46,6 +46,8 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 ---
 
 ### 2. Switching & Layer 2 Security Hardening
+
+![SW1 Native VLAN Security Hardening](./images/sw1-native-vlan-security-hardening.png)
 
 ![SW1 Port Security and BPDU Guard Config](./images/sw1-port-security-and-bpduguard-config.png)
 
@@ -56,8 +58,6 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 ![SW2 DAI ARP Poisoning Prevention Logs](./images/sw2-dai-arp-poisoning-prevention-logs.png)
 
 ![SW2 DAI Invalid ARP Mitigation Logs](./images/sw2-dai-invalid-arp-mitigation-logs.png)
-
-![SW1 Native VLAN Security Hardening](./images/sw1-native-vlan-security-hardening.png)
 
 ---
 
@@ -117,15 +117,11 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 
 ![EVE-NG VM Settings](./images/eve-ng-vm-settings.png)
 
-![EVE-NG VMware Console](./images/eve-ng-vmware-console.png.png)
+![EVE-NG VMware Console](./images/eve-ng-vmware-console.png)
 
 ![EVE-NG SFTP WinSCP Connection](./images/eve-ng-sftp-winscp-connection.png)
 
 ![EVE-NG QEMU Images Directory Structure](./images/eve-ng-qemu-images-directory-structure.png)
-
-![MLS SSH Hardening Config](./images/mls-ssh-hardening-config.png)
-
-![FortiGate GUI Dashboard Status](./images/fortigate-gui-dashboard-status.png)
 
 ![Proxmox VE Web Management Dashboard](./images/proxmox-ve-web-management-dashboard.png)
 
@@ -134,6 +130,10 @@ Welcome to the detailed technical documentation for **Phase 1**. This phase cove
 ![Windows Server OOBE Administrator Setup](./images/windows-server-oobe-administrator-setup.png)
 
 ![Ubuntu Zabbix Server Post Install Console](./images/ubuntu-zabbix-server-post-install-console.jpg)
+
+![MLS SSH Hardening Config](./images/mls-ssh-hardening-config.png)
+
+![FortiGate GUI Dashboard Status](./images/fortigate-gui-dashboard-status.png)
 
 
 ---
