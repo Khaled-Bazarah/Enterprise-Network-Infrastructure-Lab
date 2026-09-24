@@ -388,23 +388,143 @@ traceroute 8.8.8.8
 
 ### 4. Core Dynamic Routing & High Availability (HA)
 
+
+#### 📸 Core Multi-Layer Switch L3 Interface & OSPF Point-to-Point Network Provisioning
 ![MLS OSPF Point-to-Point Config](./images/mls-ospf-point-to-point-config.png)
+> **Explanation:** Side-by-side CLI provisioning on MLS1 and MLS2 converting physical interfaces (`g0/0`) into Layer 3 routed ports (`no switchport`). Enforces `ip ospf network point-to-point` to bypass unnecessary OSPF DR/BDR elections across point-to-point transit links, accelerating adjacency formation and OSPF topology convergence.
 
+<details>
+<summary><b>📄 Click to expand OSPF L3 Interface CLI Commands</b></summary>
+
+```bash
+# Core Switches (MLS1 / MLS2) - L3 Interface & OSPF Optimization
+interface GigabitEthernet0/0
+ no switchport
+ ip ospf network point-to-point
+```
+</details>
+
+---
+
+
+#### 📸 OSPF Passive Interface Hardening on User & Management SVIs
 ![MLS1 OSPF Passive Interface Config](./images/mls1-ospf-passive-interface-config.png)
+> **Explanation:** CLI execution on MLS1 configuring `passive-interface` settings across client and management SVIs (`Vlan10`, `Vlan20`, `Vlan99`). Suppresses unnecessary OSPF Hello packet transmissions toward edge access ports to optimize bandwidth, eliminate security risks, and isolate routing adjacencies while continuing to advertise internal subnets into OSPF Area 0.
 
+<details>
+<summary><b>📄 Click to expand OSPF Passive Interface CLI Commands</b></summary>
+
+```bash
+# Core Switch OSPF Hardening
+router ospf 1
+ passive-interface Vlan10
+ passive-interface Vlan20
+ passive-interface Vlan99
+```
+</details>
+
+---
+
+
+#### 📸 Core Layer OSPF Adjacency, LSDB Synchronization & Routing Table Verification
 ![MLS OSPF Routing Table and Neighbors](./images/mls-ospf-routing-table-and-neighbors.png)
+> **Explanation:** Side-by-side CLI audit on MLS1 (`Router-ID 10.10.10.1`) and MLS2 (`Router-ID 10.10.10.2`) confirming complete OSPF Area 0 convergence. Proves active `FULL/DR` and `FULL/BDR` neighbor adjacencies across SVIs, synchronized Link-State Database (LSDB) states, and proper insertion of OSPF inter-VLAN routes alongside candidate default routes (`S* 0.0.0.0/0`) pointing toward the FortiGate firewall.
 
+<details>
+<summary><b>📄 Click to expand OSPF Operational Verification CLI Commands</b></summary>
+
+```bash
+# Core Switches OSPF Audit Commands
+show ip route
+show ip ospf interface brief
+show ip ospf neighbor
+show ip ospf database
+```
+</details>
+
+---
+
+
+#### 📸 FortiGate Web GUI Dynamic OSPF Area 0 Routing Provisioning
 ![FortiGate OSPF GUI Config](./images/fortigate-ospf-gui-config.png)
+> **Explanation:** FortiGate Web GUI OSPF menu (`Network > OSPF`) displaying dynamic routing setup within Area 0 (`0.0.0.0`). Demonstrates network prefix declarations for transit point-to-point subnets (`192.168.1.76/30` and `192.168.1.80/30`) across active participating interfaces (`port2` and `port3`) to form OSPF adjacencies with MLS1 and MLS2.
 
+---
+
+
+#### 📸 FortiGate Web GUI Routing Monitor & Active OSPF ECMP Verification
 ![FortiGate GUI Routing Monitor Table](./images/fortigate-gui-routing-monitor-table.png)
+> **Explanation:** FortiGate Routing Monitor widget dashboard (`Dashboard > Network > Routing`) displaying the active RIB containing 14 converged routes. Validates dual-homed OSPF Equal-Cost Multi-Path (ECMP) route execution across `port2` (MLS1) and `port3` (MLS2) for internal subnets (VLANs 10, 20, 30, and 99), alongside the default candidate route (`0.0.0.0/0 via 192.168.1.86`) pointing toward the Edge Gateway.
 
+
+#### 📸 HSRP First Hop Redundancy, Active/Standby State & Interface Verification
 ![MLS HSRP Brief and IP Interface Summary](./images/mls-hsrp-brief-and-ip-interface-summary.png)
+> **Explanation:** Dual-console CLI execution on core switches MLS1 and MLS2 running `show standby brief` and `show ip interface brief`. Validates optimal HSRP Load Sharing; MLS1 operates as Active Gateway for VLANs 10, 30, and 99 while serving as Standby for VLAN 20. Conversely, MLS2 operates as Active Gateway for VLAN 20 and Standby for VLANs 10 and 99, enforcing zero single point of failure (SPOF) across client default gateways.
 
+<details>
+<summary><b>📄 Click to expand HSRP Operational Audit CLI Commands</b></summary>
+
+```bash
+# Core Switches HSRP Operational Verification
+show standby brief
+show ip interface brief
+```
+</details>
+
+---
+
+
+#### 📸 Detailed HSRP Protocol Mechanics, Virtual MAC & Topology Alignment (VLAN 99 Audit)
 ![HSRP VLAN99 Active Standby Status](./images/hsrp-vlan99-active-standby-status.png)
+> **Explanation:** Detailed HSRP CLI audit using `show standby` on core switches MLS1 and MLS2 alongside the full enterprise topology canvas. Proves active gateway state for Management VLAN 99 on MLS1 (`192.168.1.49`), demonstrating successful binding of the HSRP Virtual MAC (`0000.0c07.ac63`), configured priority metrics (`110` with preemption), and standby readiness on MLS2.
 
+<details>
+<summary><b>📄 Click to expand Detailed HSRP Inspection CLI Commands</b></summary>
+
+```bash
+# Detailed HSRP Inspection for Management VLAN
+show standby vlan 99
+show standby group 99
+```
+</details>
+
+---
+
+#### 📸 Dynamic HSRP Failover Simulation, Active Recovery & Client Traffic Convergence
 ![HSRP Failover Resilience Ping Test](./images/hsrp-failover-resilience-ping-test.png)
+> **Explanation:** Live multi-console failover validation test triggering manual interface shutdown (`shutdown` / `no shutdown`) on MLS1 SVI. Syslog streams verify instantaneous state migration (`Standby -> Active`) on backup switch MLS2. Simultaneously, VPCS continuous ping outputs to `8.8.8.8` confirm minimal packet loss (only 4 drop sequence ticks during transition) before traffic dynamically re-converges, establishing robust High Availability (HA) across the core network layer.
 
+<details>
+<summary><b>📄 Click to expand HSRP Failover Test CLI Commands</b></summary>
+
+```bash
+# Trigger SVI Shutdown to Test Gateway Failover
+interface Vlan10
+ shutdown
+
+# Re-enable Interface to Test Preemption Recovery
+interface Vlan10
+ no shutdown
+```
+</details>
+
+---
+
+#### 📸 Access Layer Inter-Switch Reachability & HSRP Management Gateway Ping Verification
 ![HSRP Management Ping Reachability](./images/hsrp-management-ping-reachability.png)
+> **Explanation:** Multi-console execution across access switches SW1, SW2, and SW3 validating Layer 2/3 management connectivity on VLAN 99. Demonstrates 100% ICMP ping success rates targeting core physical SVI management IPs (`192.168.1.50` & `192.168.1.51`) alongside the virtual HSRP gateway address (`192.168.1.49`), confirming full in-band management reachability and proper trunking traversal.
+
+<details>
+<summary><b>📄 Click to expand Management Connectivity Verification CLI Commands</b></summary>
+
+```bash
+# Verify Management VLAN 99 Reachability
+ping 192.168.1.49
+ping 192.168.1.50
+ping 192.168.1.51
+```
+</details>
+
 
 ---
 
