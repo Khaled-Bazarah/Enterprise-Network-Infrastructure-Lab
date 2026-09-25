@@ -29,7 +29,7 @@ This repository documents the end-to-end design, implementation, and hardening o
 
 ## 📐 Architecture & Topology
 
-![Enterprise Network Topology](./docs/topologies/topology.png)
+![Enterprise Network Topology](./docs/topologies/tpology.png)
 
 ---
 
