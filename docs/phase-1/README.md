@@ -638,6 +638,12 @@ mkdir -p /opt/unetlab/addons/qemu/vios-adventerprisek9-m.SPA.159-3.M6
 
 ---
 
+#### 📸 Proxmox VE Bare-Metal Network Bridge & Static IP Configuration (`/etc/network/interfaces`)
+![Proxmox Network Interfaces Config](./images/proxmox-network-interfaces-config.png)
+> **Explanation:** Remote MobaXterm SSH console session displaying the primary Proxmox VE hypervisor network configuration file (`/etc/network/interfaces`). Demonstrates static management IPv4 binding (`192.168.1.100/28`) mapped to default gateway `192.168.1.97` (Server VLAN 30 HSRP VIP) over the primary Linux bridge interface `vmbr0` bridged directly to physical Ethernet port `enp8s0`.
+
+---
+
 #### 📸 Proxmox VE Datacenter Management Console & Automated Bulk Task Audit
 ![Proxmox VE Web Management Dashboard](./images/proxmox-ve-web-management-dashboard.png)
 > **Explanation:** Proxmox VE Web Management UI (`https://192.168.1.100:8006`) highlighting node `pve` Datacenter options and local storage volumes (`local` and `local-lvm`). Bottom task panel validates successful execution (`Status OK`) of automated hypervisor bulk operational commands (`Bulk start/shutdown VMs and Containers`), proving compute readiness for enterprise host infrastructure.
