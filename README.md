@@ -44,18 +44,19 @@ This repository documents the end-to-end design, implementation, and hardening o
 
 ## 🛠️ Software & Tooling Stack
 
-* **Infrastructure & Security:**
+- **Infrastructure & Security:**
   * **Cisco Systems:** Cisco `vIOS` (Layer 3 Routing) & `vIOS-L2` (Core/Access Switching)
   * **Fortinet:** **FortiGate NGFW** (FortiOS)
-* **Compute & Virtualization:**
+- **Compute & Virtualization:**
   * **Hypervisor:** Proxmox VE (Bare-metal deployment via Rufus)
-  * **Directory & Monitoring Servers:** Windows Server (AD DS, DNS), Ubuntu Server (Zabbix Node)
+  * **Directory & Monitoring Servers:** Windows Server (AD DS, DNS, DHCP), Ubuntu Server (Zabbix Node)
   * **Endpoints:** Windows 10 Enterprise & Ubuntu Desktop
-* **Operations & Administration:**
+- **Identity, Access & Identity Integration:**
+  * **Linux Domain Integration:** `SSSD` (System Security Services Daemon), `realmd`
+- **Operations & Administration:**
   * **Management Interfaces:** Proxmox Web GUI / CLI, FortiGate HTTPS GUI / SSH
-  * **Terminal & Access:** PuTTY, MobaXterm (SSH & Console)
+  * **Terminal & Access:** PuTTY, MobaXterm (SSH , Console & RDP), PowerShell, CMD, UltraVNC Viewer
   * **File Systems & Artifacts:** WinSCP (Configuration, SCP, Script deployment)
-
 ---
 
 ## 💡 Technical Highlights & Security Hardening
@@ -75,6 +76,14 @@ This repository documents the end-to-end design, implementation, and hardening o
 * **Mitigation Protocols:** `DHCP Snooping` and `Dynamic ARP Inspection (DAI)` enforced across untrusted access ports.
 * **Edge & Plane Security:** Dynamic NAT/PAT, static upstream default routes (`0.0.0.0/0`), ACLs, Control Plane Policing (CoPP), and Local Credential Encryption with SSH v2.
 
+### 🔐 Identity, Directory Services & Access Security 
+- **High Availability Domain Services:** Redundant Domain Controllers (`KSA-JED-DC01` & `KSA-JED-DC02`) in `kob.local` ensuring Active Directory fault tolerance and uninterrupted Kerberos authentication.
+- **Centralized Infrastructure Services:** High-availability DNS (Forward/Reverse Lookup) paired with DHCP Relay via `ip helper-address 192.168.1.101` pointing directly to the primary DC.
+- **Cross-Platform Identity Architecture:** Unified Single Sign-On (SSO) and Kerberos authentication across Windows 10 endpoints and Linux clients joined via `SSSD` and `realmd`.
+- **Role-Based Access Control (RBAC):** Hierarchical Organizational Units (OUs) mapped to security groups, applying granular Group Policy Objects (GPOs) for enterprise security enforcement.
+- **Isolated Storage Security:** Restrictive SMB/CIFS departmental file shares protected with strict NTFS and Share permissions to guarantee complete cross-departmental isolation.
+
+
 ---
 
 ## 🚀 Project Roadmap
@@ -82,7 +91,9 @@ This repository documents the end-to-end design, implementation, and hardening o
 * ✅ **Phase 1: Core Network Topology, Dynamic Routing, HA & Security Hardening**
 > 📄 **Complete Details Available:** 
   > 🔗 **[👉 Click Here to Read Phase 1 Comprehensive Documentation & Configuration Guide 👈](./docs/phase-1/README.md)**
-* ⏳ **Phase 2: Active Directory Services, Identity, DNS, DHCP & GPO Integration**
+* ✅ **Phase 2: Active Directory Services, Identity, DNS, DHCP & GPO Integration**
+> 📄 **Complete Details Available:**
+  > 🔗 **[👉 Click Here to Read Phase 2 Comprehensive Documentation & Configuration Guide 👈](./docs/phase-2/README.md)**
 * ⏳ **Phase 3: Centralized Infrastructure Monitoring (Zabbix & Deep Packet Inspection)**
 * ⏳ **Phase 4: Disaster Recovery & Automated Enterprise Backup (Veeam)**
 * ⏳ **Phase 5: Secure Remote Work (FortiGate SSL-VPN & Multi-Factor Authentication)**
@@ -106,21 +117,22 @@ This repository documents the end-to-end design, implementation, and hardening o
 
 ### 2. Infrastructure & Dedicated Host Assignments
 
-* **Out-of-Band Switch Management (VLAN 99):**
+- **Out-of-Band Switch Management (VLAN 99):**
   * `SW1 SVI`: `192.168.1.52/28` | `SW2 SVI`: `192.168.1.53/28` | `SW3 SVI`: `192.168.1.54/28`
-* **Server Infrastructure Tier (VLAN 30):**
+- **Server Infrastructure Tier (VLAN 30):**
   * `Proxmox VE Hypervisor Host`: `192.168.1.100/28`
-  * `Windows Server (Domain Controller)`: `192.168.1.101/28`
+  * `Windows Server Primary DC (KSA-JED-DC01)`: `192.168.1.101/28` (`kob.local` Primary DNS)
+  * `Windows Server Secondary DC (KSA-JED-DC02)`: `192.168.1.104/28` (`kob.local` Backup DC/DNS)
   * `Ubuntu Server (Zabbix Node)`: `192.168.1.102/28`
-* **End-User Workstations:**
-  * `Windows 10 PC (VLAN 10)`: Static IP in `192.168.1.0/27` range
-  * `Ubuntu Linux PC (VLAN 20)`: Static IP in `192.168.1.32/28` range
+- **End-User Workstations:**
+  * `Windows 10 PC (VLAN 10)`: Domain-joined endpoint (DHCP Pool `192.168.1.7`)
+  * `Ubuntu Linux PC (VLAN 20)`: Domain-joined endpoint via SSSD (DHCP Pool `192.168.1.39`)
 
 ---
 
 ### 3. Point-to-Point Interconnects & OSPF Boundaries (`/30` Subnets)
 
-* **Router IDs:** MLS1 (`10.10.10.1`) | MLS2 (`10.10.10.2`) | FortiGate (`10.10.10.3`) | Edge Router (`10.10.10.4`)
+- **Router IDs:** MLS1 (`10.10.10.1`) | MLS2 (`10.10.10.2`) | FortiGate (`10.10.10.3`) | Edge Router (`10.10.10.4`)
 
 | Link Path | Local Interface & IP | Remote Interface & IP | Subnet |
 | :--- | :--- | :--- | :---: |
@@ -128,6 +140,55 @@ This repository documents the end-to-end design, implementation, and hardening o
 | **MLS2 ↔ FortiGate** | MLS2 `Gi0/0` (`192.168.1.81`) | FortiGate `port3` (`192.168.1.82`) | `192.168.1.80/30` |
 | **FortiGate ↔ Edge Router** | FortiGate `port1` (`192.168.1.85`) | vIOS `Gi0/1` (`192.168.1.86`) | `192.168.1.84/30` |
 | **Edge Router ↔ WAN** | vIOS `Gi0/0` (`192.168.8.250`) | Upstream ISP Gateway | Dynamic / External |
+
+---
+
+### 4. Dynamic IP Addressing Scopes (DHCP via IP Helper)
+
+| VLAN / Scope Name | Target Subnet | Dynamic IP Pool Range | Subnet Mask | Relay Server (`ip helper-address`) |
+| :--- | :---: | :---: | :---: | :---: |
+| **VLAN 10 Scope** (Engineers) | `192.168.1.0/27` | `192.168.1.5` – `192.168.1.30` | `255.255.255.224` | `192.168.1.101` |
+| **VLAN 20 Scope** (HR) | `192.168.1.32/28` | `192.168.1.36` – `192.168.1.46` | `255.255.255.240` | `192.168.1.101` |
+
+
+---
+
+## 🏗️ Active Directory Organizational Unit (OU) Hierarchy
+
+* **Tier 0:** Restricts Domain Controllers and Domain Admin accounts.
+* **Tier 1:** Isolates enterprise infrastructure servers (Backup, Monitoring, and Storage).
+* **Tier 2:** Manages departmental user accounts, workstations, and endpoint policies.
+
+```text
+kob.local (Domain Root)
+|
+└── 📁 KOB_Enterprise (Root OU)
+    |
+    ├── 🔒 Tier_0_Domain_Admin
+    |   ├── 👤 Accounts            (Primary Domain Administrator Accounts)
+    |   ├── 👥 Groups              (G_Tier0_Domain_Admins)
+    |   └── 💻 Domain_Controllers  (Domain Controller Computer Objects)
+    |
+    ├── ⚙️ Tier_1_Servers_Infrastructure
+    |   ├── 💾 Backup_and_Storage  (Veeam Backup Servers & Storage Repositories)
+    |   ├── 📊 Monitoring_Nodes    (Ubuntu Zabbix & Infrastructure Monitoring Servers)
+    |   └── 👥 Groups              (G_Tier1_Server_Admins)
+    |
+    ├── 💻 Tier_2_Workstations_and_Users
+    |   ├── 🏢 Departments
+    |   |   ├── 🛠️ Engineering (VLAN 10)
+    |   |   |   ├── 👤 Accounts    (Engineering User Accounts)
+    |   |   |   └── 💻 Devices     (Windows Workstations)
+    |   |   |
+    |   |   ├── 👥 HR (VLAN 20)
+    |   |       ├── 👤 Accounts    (HR User Accounts)
+    |   |       └── 💻 Devices     (Linux / Windows Workstations)
+    |   |    
+    |   └── 👥 Groups              (Departmental Security & Access Groups)
+    |
+    └── 🛠️ Admin_Privileged_Accounts
+        ├── 👤 Tier_1_Admins       (Dedicated Accounts for Server & Storage Management)
+        └── 👤 Tier_2_Admins       (Dedicated Helpdesk Accounts for User Workstation Support)
 
 ---
 
