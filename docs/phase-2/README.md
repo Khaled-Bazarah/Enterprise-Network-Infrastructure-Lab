@@ -32,59 +32,60 @@ Welcome to the detailed technical documentation for **Phase 2**. This phase cove
 ---
 ---
 ## 🛠️ Technical Highlights & Implementation Scope
+
 ## 1. Base Server Setup & Initial Configuration
 
 ### Timezone Setup
-<img src="docs/phase-2/images/Timezone-Setup.png" alt="Timezone Setup" width="750">
+![Timezone Setup](../../docs/phase-2/images/Timezone-Setup.png)
 
 ### Server Name Configuration
-<img src="docs/phase-2/images/Server-Name-Change.png" alt="Server Name Change" width="750">
+![Server Name Change](../../docs/phase-2/images/Server-Name-Change.png)
 
 ### Server Properties Overview
-<img src="docs/phase-2/images/Server-Properties-Overview.png" alt="Server Properties Overview" width="750">
+![Server Properties Overview](../../docs/phase-2/images/Server-Properties-Overview.png)
 
 ### Static IP Address Configuration
-<img src="docs/phase-2/images/Static-IP-Configuration-WIN-Server.png" alt="Static IP Configuration" width="750">
+![Static IP Configuration](../../docs/phase-2/images/Static-IP-Configuration-WIN-Server.png)
 
 ---
 
 ## 2. Active Directory Services & Infrastructure Deployment
 
 ### AD DS Roles & Features Wizard
-<img src="docs/phase-2/images/Roles-Features-Wizard-Start.png" alt="Roles Features Wizard Start" width="750">
+![Roles Features Wizard Start](../../docs/phase-2/images/Roles-Features-Wizard-Start.png)
 
 ### Select Server Roles
-<img src="docs/phase-2/images/Select-Server-Roles.png" alt="Select Server Roles" width="750">
+![Select Server Roles](../../docs/phase-2/images/Select-Server-Roles.png)
 
 ### Installation Progress
-<img src="docs/phase-2/images/Installation-Progress.png" alt="Installation Progress" width="750">
+![Installation Progress](../../docs/phase-2/images/Installation-Progress.png)
 
 ### Post-Deployment Configuration
-<img src="docs/phase-2/images/Post-Deployment-Notifications.png" alt="Post Deployment Notifications" width="750">
+![Post Deployment Notifications](../../docs/phase-2/images/Post-Deployment-Notifications.png)
 
 ### New Forest Deployment
-<img src="docs/phase-2/images/AD-New-Forest-Setup.png" alt="AD New Forest Setup" width="750">
+![AD New Forest Setup](../../docs/phase-2/images/AD-New-Forest-Setup.png)
 
 ### Prerequisites Check
-<img src="docs/phase-2/images/AD-Prerequisites-Check.png" alt="AD Prerequisites Check" width="750">
+![AD Prerequisites Check](../../docs/phase-2/images/AD-Prerequisites-Check.png)
 
 ### Forest & Domain Selection
-<img src="docs/phase-2/images/AD-Forest-Domain-Selection.png" alt="AD Forest Domain Selection" width="750">
+![AD Forest Domain Selection](../../docs/phase-2/images/AD-Forest-Domain-Selection.png)
 
 ### Secondary Domain Controller Deployment
-<img src="docs/phase-2/images/AD-Additional-DC-Deployment.png" alt="AD Additional DC Deployment" width="750">
+![AD Additional DC Deployment](../../docs/phase-2/images/AD-Additional-DC-Deployment.png)
 
 ### Secondary DC Hostname Change
-<img src="docs/phase-2/images/Secondary-DC-Name-Change.png" alt="Secondary DC Name Change" width="750">
+![Secondary DC Name Change](../../docs/phase-2/images/Secondary-DC-Name-Change.png)
 
 ### Secondary DC Static IP Configuration
-<img src="docs/phase-2/images/Secondary-DC-IP-Config-WIN-Server.png" alt="Secondary DC IP Configuration" width="750">
+![Secondary DC IP Configuration](../../docs/phase-2/images/Secondary-DC-IP-Config-WIN-Server.png)
 
 ### AD Replication Options
-<img src="docs/phase-2/images/AD-Replication-Options.png" alt="AD Replication Options" width="750">
+![AD Replication Options](../../docs/phase-2/images/AD-Replication-Options.png)
 
 ### AD Replication Health Summary
-<img src="docs/phase-2/images/AD-Replication-Health-Summary.png" alt="AD Replication Health Summary" width="750">
+![AD Replication Health Summary](../../docs/phase-2/images/AD-Replication-Health-Summary.png)
 
 ---
 
@@ -92,92 +93,92 @@ Welcome to the detailed technical documentation for **Phase 2**. This phase cove
 
 ### 🌐 Domain Name System (DNS)
 #### New Zone Wizard Setup
-<img src="docs/phase-2/images/DNS-New-Zone-Wizard.png" alt="DNS New Zone Wizard" width="750">
+![DNS New Zone Wizard](../../docs/phase-2/images/DNS-New-Zone-Wizard.png)
 
 #### Reverse Lookup Zone Network ID
-<img src="docs/phase-2/images/DNS-Reverse-Zone-NetworkID.png" alt="DNS Reverse Zone Network ID" width="750">
+![DNS Reverse Zone Network ID](../../docs/phase-2/images/DNS-Reverse-Zone-NetworkID.png)
 
 #### Host (A) Record Properties
-<img src="docs/phase-2/images/DNS-Host-A-Record-Properties.png" alt="DNS Host A Record Properties" width="750">
+![DNS Host A Record Properties](../../docs/phase-2/images/DNS-Host-A-Record-Properties.png)
 
 #### Forwarders Configuration
-<img src="docs/phase-2/images/DNS-Forwarders-Config.png" alt="DNS Forwarders Configuration" width="750">
+![DNS Forwarders Configuration](../../docs/phase-2/images/DNS-Forwarders-Config.png)
 
 #### DNS Nslookup Verification
-<img src="docs/phase-2/images/DNS-Nslookup-Verification.png" alt="DNS Nslookup Verification" width="750">
+![DNS Nslookup Verification](../../docs/phase-2/images/DNS-Nslookup-Verification.png)
 
 #### Multi-DC DNS Verification
-<img src="docs/phase-2/images/DNS-Multi-DC-Nslookup-Verification.png" alt="DNS Multi DC Nslookup Verification" width="750">
+![DNS Multi DC Nslookup Verification](../../docs/phase-2/images/DNS-Multi-DC-Nslookup-Verification.png)
 
 #### Domain ICMP / Ping Verification
-<img src="docs/phase-2/images/Domain-Ping-Verification.png" alt="Domain Ping Verification" width="750">
+![Domain Ping Verification](../../docs/phase-2/images/Domain-Ping-Verification.png)
 
 ### 🕒 Network Time Protocol (NTP)
 #### NTP Server Resolution & Config
-<img src="docs/phase-2/images/NTP-Server-Config-Resolve.png" alt="NTP Server Config Resolve" width="750">
+![NTP Server Config Resolve](../../docs/phase-2/images/NTP-Server-Config-Resolve.png)
 
 #### NTP Status Query
-<img src="docs/phase-2/images/NTP-Status-Query.png" alt="NTP Status Query" width="750">
+![NTP Status Query](../../docs/phase-2/images/NTP-Status-Query.png)
 
 ### 📡 DHCP & IP Helper / Relay
 #### DHCP Scope Naming
-<img src="docs/phase-2/images/DHCP-Scope-Name-Config.png" alt="DHCP Scope Name Config" width="750">
+![DHCP Scope Name Config](../../docs/phase-2/images/DHCP-Scope-Name-Config.png)
 
 #### DHCP Address Pool Range
-<img src="docs/phase-2/images/DHCP-IP-Range-Config.png" alt="DHCP IP Range Config" width="750">
+![DHCP IP Range Config](../../docs/phase-2/images/DHCP-IP-Range-Config.png)
 
 #### DHCP DNS Options Configuration
-<img src="docs/phase-2/images/DHCP-DNS-Server-Config.png" alt="DHCP DNS Server Config" width="750">
+![DHCP DNS Server Config](../../docs/phase-2/images/DHCP-DNS-Server-Config.png)
 
 #### Cisco Switch IP Helper / Relay (VLAN 10)
-<img src="docs/phase-2/images/Cisco-DHCP-Relay-Config-vlan-10.png" alt="Cisco DHCP Relay Config VLAN 10" width="750">
+![Cisco DHCP Relay Config VLAN 10](../../docs/phase-2/images/Cisco-DHCP-Relay-Config-vlan-10.png)
 
 #### Cisco Switch IP Helper / Relay (VLAN 20)
-<img src="docs/phase-2/images/Cisco-DHCP-Relay-Config-VLAN-20.png" alt="Cisco DHCP Relay Config VLAN 20" width="750">
+![Cisco DHCP Relay Config VLAN 20](../../docs/phase-2/images/Cisco-DHCP-Relay-Config-VLAN-20.png)
 
 #### VPCS Client DHCP Lease Verification
-<img src="docs/phase-2/images/VPCS-DHCP-Lease-Verification.png" alt="VPCS DHCP Lease Verification" width="750">
+![VPCS DHCP Lease Verification](../../docs/phase-2/images/VPCS-DHCP-Lease-Verification.png)
 
 ---
 
 ## 4. Active Directory Identity & Access Management
 
 ### Organizational Unit (OU) Creation
-<img src="docs/phase-2/images/AD-Create-Organizational-Unit.png" alt="AD Create Organizational Unit" width="750">
+![AD Create Organizational Unit](../../docs/phase-2/images/AD-Create-Organizational-Unit.png)
 
 ### Sub-OU Hierarchy Setup
-<img src="docs/phase-2/images/AD-Sub-OU-Creation.png" alt="AD Sub OU Creation" width="750">
+![AD Sub OU Creation](../../docs/phase-2/images/AD-Sub-OU-Creation.png)
 
 ### Tiered OU Structure Overview
-<img src="docs/phase-2/images/AD-Tiered-OU-Structure-Overview.png" alt="AD Tiered OU Structure Overview" width="750">
+![AD Tiered OU Structure Overview](../../docs/phase-2/images/AD-Tiered-OU-Structure-Overview.png)
 
 ### User Account Provisioning
-<img src="docs/phase-2/images/AD-User-Creation-Details.png" alt="AD User Creation Details" width="750">
+![AD User Creation Details](../../docs/phase-2/images/AD-User-Creation-Details.png)
 
 ### User Password & Security Options
-<img src="docs/phase-2/images/AD-User-Password-Options.png" alt="AD User Password Options" width="750">
+![AD User Password Options](../../docs/phase-2/images/AD-User-Password-Options.png)
 
 ### Security Group Creation
-<img src="docs/phase-2/images/AD-Security-Group-Creation.png" alt="AD Security Group Creation" width="750">
+![AD Security Group Creation](../../docs/phase-2/images/AD-Security-Group-Creation.png)
 
 ### Moving Objects Menu
-<img src="docs/phase-2/images/AD-Move-Object-Menu.png" alt="AD Move Object Menu" width="750">
+![AD Move Object Menu](../../docs/phase-2/images/AD-Move-Object-Menu.png)
 
 ### Target OU Selection
-<img src="docs/phase-2/images/AD-Move-Target-OU-Selection.png" alt="AD Move Target OU Selection" width="750">
+![AD Move Target OU Selection](../../docs/phase-2/images/AD-Move-Target-OU-Selection.png)
 
 ---
 
 ## 5. Group Policy Objects (GPO) Implementation
 
 ### Account Lockout Policy
-<img src="docs/phase-2/images/GPO-Account-Lockout-Policy.png" alt="GPO Account Lockout Policy" width="750">
+![GPO Account Lockout Policy](../../docs/phase-2/images/GPO-Account-Lockout-Policy.png)
 
 ### Restricted Groups Configuration
-<img src="docs/phase-2/images/GPO-Restricted-Groups-Config.png" alt="GPO Restricted Groups Config" width="750">
+![GPO Restricted Groups Config](../../docs/phase-2/images/GPO-Restricted-Groups-Config.png)
 
 ### Group Policy Force Update (gpupdate /force)
-<img src="docs/phase-2/images/Group-Policy-Force-Update.png" alt="Group Policy Force Update" width="750">
+![Group Policy Force Update](../../docs/phase-2/images/Group-Policy-Force-Update.png)
 
 ---
 
@@ -185,63 +186,63 @@ Welcome to the detailed technical documentation for **Phase 2**. This phase cove
 
 ### 🪟 Windows Workstation Integration
 #### DHCP Client IP Lease
-<img src="docs/phase-2/images/DHCP-Client-Lease-Active.png" alt="DHCP Client Lease Active" width="750">
+![DHCP Client Lease Active](../../docs/phase-2/images/DHCP-Client-Lease-Active.png)
 
 #### Client IP Network Details
-<img src="docs/phase-2/images/Client-IP-Configuration-Details.png" alt="Client IP Configuration Details" width="750">
+![Client IP Configuration Details](../../docs/phase-2/images/Client-IP-Configuration-Details.png)
 
 #### Domain Member Properties
-<img src="docs/phase-2/images/Domain-Joined-Server-Properties.png" alt="Domain Joined Server Properties" width="750">
+![Domain Joined Server Properties](../../docs/phase-2/images/Domain-Joined-Server-Properties.png)
 
 #### Domain Join Settings
-<img src="docs/phase-2/images/Domain-Join-Configuration.png" alt="Domain Join Configuration" width="750">
+![Domain Join Configuration](../../docs/phase-2/images/Domain-Join-Configuration.png)
 
 #### Domain Join Success Confirmation
-<img src="docs/phase-2/images/Domain-Join-Success.png" alt="Domain Join Success" width="750">
+![Domain Join Success](../../docs/phase-2/images/Domain-Join-Success.png)
 
 #### Domain User Logon Screen
-<img src="docs/phase-2/images/Domain-User-Login-Screen.png" alt="Domain User Login Screen" width="750">
+![Domain User Login Screen](../../docs/phase-2/images/Domain-User-Login-Screen.png)
 
 #### Domain Admin Authentication
-<img src="docs/phase-2/images/Domain-Admin-Login.png" alt="Domain Admin Login" width="750">
+![Domain Admin Login](../../docs/phase-2/images/Domain-Admin-Login.png)
 
 ### 🐧 Linux (Ubuntu) SSSD Enterprise Integration
 #### Ubuntu DHCP Lease Verification
-<img src="docs/phase-2/images/Ubuntu-DHCP-Lease-Active.png" alt="Ubuntu DHCP Lease Active" width="750">
+![Ubuntu DHCP Lease Active](../../docs/phase-2/images/Ubuntu-DHCP-Lease-Active.png)
 
 #### Ubuntu Network Details
-<img src="docs/phase-2/images/Ubuntu-IP-Address-Details.png" alt="Ubuntu IP Address Details" width="750">
+![Ubuntu IP Address Details](../../docs/phase-2/images/Ubuntu-IP-Address-Details.png)
 
 #### SSSD & Realmd Package Installation
-<img src="docs/phase-2/images/Ubuntu-SSSD-Packages-Install.png" alt="Ubuntu SSSD Packages Install" width="750">
+![Ubuntu SSSD Packages Install](../../docs/phase-2/images/Ubuntu-SSSD-Packages-Install.png)
 
 #### Active Directory Domain Join Command
-<img src="docs/phase-2/images/Ubuntu-AD-Domain-Join.png" alt="Ubuntu AD Domain Join" width="750">
+![Ubuntu AD Domain Join](../../docs/phase-2/images/Ubuntu-AD-Domain-Join.png)
 
 #### Realm List Verification
-<img src="docs/phase-2/images/Ubuntu-Realm-List-Verification.png" alt="Ubuntu Realm List Verification" width="750">
+![Ubuntu Realm List Verification](../../docs/phase-2/images/Ubuntu-Realm-List-Verification.png)
 
 #### Terminal Domain DNS Lookup
-<img src="docs/phase-2/images/Ubuntu-Terminal-Domain-Nslookup.png" alt="Ubuntu Terminal Domain Nslookup" width="750">
+![Ubuntu Terminal Domain Nslookup](../../docs/phase-2/images/Ubuntu-Terminal-Domain-Nslookup.png)
 
 #### Ubuntu GDM Display Manager Login
-<img src="docs/phase-2/images/Ubuntu-GDM-Login-Prompt.png" alt="Ubuntu GDM Login Prompt" width="750">
+![Ubuntu GDM Login Prompt](../../docs/phase-2/images/Ubuntu-GDM-Login-Prompt.png)
 
 #### Domain User Interactive Session
-<img src="docs/phase-2/images/Ubuntu-Domain-User-Login.png" alt="Ubuntu Domain User Login" width="750">
+![Ubuntu Domain User Login](../../docs/phase-2/images/Ubuntu-Domain-User-Login.png)
 
 ---
 
 ## 7. File Services & Storage Security
 
 ### SMB Advanced Folder Sharing
-<img src="docs/phase-2/images/SMB-Folder-Advanced-Sharing.png" alt="SMB Folder Advanced Sharing" width="750">
+![SMB Folder Advanced Sharing](../../docs/phase-2/images/SMB-Folder-Advanced-Sharing.png)
 
 ### SMB Share Permissions
-<img src="docs/phase-2/images/SMB-Share-Permissions-Config.png" alt="SMB Share Permissions Config" width="750">
+![SMB Share Permissions Config](../../docs/phase-2/images/SMB-Share-Permissions-Config.png)
 
 ### NTFS Security & Access Control List (ACL)
-<img src="docs/phase-2/images/NTFS-Folder-Security-Permissions.png" alt="NTFS Folder Security Permissions" width="750">
+![NTFS Folder Security Permissions](../../docs/phase-2/images/NTFS-Folder-Security-Permissions.png)
 
 ### UNC Path Network Access Verification
-<img src="docs/phase-2/images/UNC-Path-Run-Access.png" alt="UNC Path Run Access" width="750">
+![UNC Path Run Access](../../docs/phase-2/images/UNC-Path-Run-Access.png)
