@@ -7,7 +7,7 @@ Welcome to the detailed technical documentation for **Phase 2**. This phase cove
 
 ## 📐 Phase 2 Architecture Scope & Service Integration
 
-![Phase 2 Directory & Network Scope](../../docs/topologies/topology.png)
+![Phase 2 Directory & Network Scope](../../docs/phase-2/images/Topology.png)
 
 > [!NOTE]
 > **Implementation Scope:** This document details the step-by-step configuration, Organizational Unit (OU) structure, Group Policy Objects (GPO), Linux SSSD domain onboarding, DHCP Relay setup, and verification tests for the enterprise identity layer.
