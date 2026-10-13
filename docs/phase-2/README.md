@@ -38,6 +38,20 @@ Welcome to the detailed technical documentation for **Phase 2**. This phase cove
 ### Timezone Setup
 ![Timezone Setup](../../docs/phase-2/images/Timezone-Setup.png)
 
+### 🕒 Timezone Setup
+
+![Timezone Setup](../../docs/phase-2/images/Timezone-Setup.png)
+
+**Description:**  
+Configures the standardized system Time Zone on **Windows Server 2022** to `(UTC+03:00) Kuwait, Riyadh`. Clock synchronization and correct time zone settings are critical prerequisites in Active Directory Domain Services (AD DS) environments to prevent Kerberos authentication failures, ensure seamless Domain Controller replication, and maintain accurate event logging across the enterprise network.
+
+**Configuration Steps:**
+1. Open **Server Manager** and select **Local Server**.
+2. Click on the current **Time zone** setting to open the **Date and Time** dialog.
+3. Click **Change time zone...**.
+4. Select `(UTC+03:00) Kuwait, Riyadh` from the drop-down menu and click **OK** to apply.
+
+
 ### Server Name Configuration
 ![Server Name Change](../../docs/phase-2/images/Server-Name-Change.png)
 
