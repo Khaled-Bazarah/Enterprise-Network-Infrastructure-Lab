@@ -38,10 +38,6 @@ Welcome to the detailed technical documentation for **Phase 2**. This phase cove
 ### Timezone Setup
 ![Timezone Setup](../../docs/phase-2/images/Timezone-Setup.png)
 
-### 🕒 Timezone Setup
-
-![Timezone Setup](../../docs/phase-2/images/Timezone-Setup.png)
-
 **Description:**  
 Configures the standardized system Time Zone on **Windows Server 2022** to `(UTC+03:00) Kuwait, Riyadh`. Clock synchronization and correct time zone settings are critical prerequisites in Active Directory Domain Services (AD DS) environments to prevent Kerberos authentication failures, ensure seamless Domain Controller replication, and maintain accurate event logging across the enterprise network.
 
@@ -55,11 +51,52 @@ Configures the standardized system Time Zone on **Windows Server 2022** to `(UTC
 ### Server Name Configuration
 ![Server Name Change](../../docs/phase-2/images/Server-Name-Change.png)
 
+**Description:**  
+Renames the primary server host from its default randomized NetBIOS name to a structured enterprise convention: `KSA-JED-DC01`. Assigning a clear, standard hostname prior to Active Directory Domain Services (AD DS) installation is a best practice that simplifies DNS record mapping, identity tracking, and server management across the enterprise architecture.
+
+**Configuration Steps:**
+1. Open **Server Manager** and navigate to **Local Server**.
+2. Click on the current **Computer name** entry to open **System Properties**.
+3. Under the **Computer Name** tab, click **Change...**.
+4. Enter `KSA-JED-DC01` in the **Computer name** field and click **OK**.
+5. Restart the server when prompted to apply the new hostname.
+
+
 ### Server Properties Overview
 ![Server Properties Overview](../../docs/phase-2/images/Server-Properties-Overview.png)
 
+**Description:**  
+Displays the **Local Server** dashboard overview in Server Manager following initial baseline configurations[cite: 7]. This verification step confirms that core system properties—including the updated hostname (`KSA-JED-DC01`), time zone (`(UTC+03:00) Kuwait, Riyadh`), Remote Desktop accessibility, and local network adapter settings—are correctly applied before proceeding with role installations[cite: 7].
+
+**Verification Steps:**
+1. Open **Server Manager** and click on **Local Server** in the left navigation pane[cite: 7].
+2. Review the **Properties** panel for `KSA-JED-DC01` to verify the hostname, active Workgroup status, network adapter binding, and time zone settings[cite: 7].
+
+
+
 ### Static IP Address Configuration
 ![Static IP Configuration](../../docs/phase-2/images/Static-IP-Configuration-WIN-Server.png)
+
+**Description:**  
+Configures a static IPv4 address, custom subnet mask, default gateway, and loopback/primary DNS reference on the server's network adapter (`Ethernet`)[cite: 8]. Assigning a static IP address is a fundamental prerequisite before promoting a server to a Domain Controller (DC) or DNS server, ensuring consistent network reachability, reliable resolution services, and predictable routing across the subnet[cite: 8].
+
+**Configuration Parameters:**
+- **IP Address:** `192.168.1.101`[cite: 8]
+- **Subnet Mask:** `255.255.255.248`[cite: 8]
+- **Default Gateway:** `192.168.1.97`[cite: 8]
+- **Preferred DNS Server:** `192.168.1.101` (Self-referencing for Active Directory integrated DNS)[cite: 8]
+
+**Configuration Steps:**
+1. Open **Network Connections** (`ncpa.cpl`) or click on the **Ethernet** interface in **Server Manager**[cite: 8].
+2. Right-click the active adapter and select **Properties**[cite: 8].
+3. Select **Internet Protocol Version 4 (TCP/IPv4)** and click **Properties**[cite: 8].
+4. Choose **Use the following IP address** and enter the static parameters (`IP: 192.168.1.101`, `Subnet: 255.255.255.248`, `Gateway: 192.168.1.97`)[cite: 8].
+5. Select **Use the following DNS server addresses** and set **Preferred DNS server** to `192.168.1.101`[cite: 8].
+6. Click **OK** and close to apply the network bindings[cite: 8].
+
+
+
+
 
 ---
 
