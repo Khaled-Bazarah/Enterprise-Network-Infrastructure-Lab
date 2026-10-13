@@ -556,91 +556,402 @@ Validates successful IP address lease distribution for the Engineering departmen
 ### Organizational Unit (OU) Creation
 ![AD Create Organizational Unit](../../docs/phase-2/images/AD-Create-Organizational-Unit.png)
 
+
+ **Description:**
+Initiates the creation of a dedicated top-level Organizational Unit (OU) directly under the root domain (`kob.local`) in Active Directory Users and Computers (ADUC). Establishing a custom root OU provides a structured administrative boundary to segregate enterprise assets from default built-in Windows containers.
+
+**Configuration Parameters:**
+- **Target Domain:** `kob.local`
+- **Object Type:** `Organizational Unit`
+- **Management Console:** `Active Directory Users and Computers` (`dsa.msc`)
+
+**Configuration Steps:**
+1. Open **Active Directory Users and Computers** on the primary Domain Controller (`KSA-JED-DC01`).
+2. Right-click the root domain node `kob.local`.
+3. Navigate to **New** > **Organizational Unit**.
+4. Proceed to the naming configuration prompt to define the enterprise OU container.
+
+
 ### Sub-OU Hierarchy Setup
 ![AD Sub OU Creation](../../docs/phase-2/images/AD-Sub-OU-Creation.png)
+
+**Description:**
+Configures nested sub-OUs within the primary enterprise container (`KOB_Enterprise`) to implement Microsoft's Tiered Administration Model. Enabling accidental deletion protection ensures critical organizational structures remain protected against inadvertent administrative removal.
+
+**Configuration Parameters:**
+- **Parent Container:** `kob.local/KOB_Enterprise`
+- **Sub-OU Name:** `Tier_0_Domain_Admin`
+- **Security Control:** `Protect container from accidental deletion` (Checked)
+
+**Configuration Steps:**
+1. Right-click the parent container `KOB_Enterprise`.
+2. Select **New** > **Organizational Unit**.
+3. Enter `Tier_0_Domain_Admin` in the **Name** field.
+4. Ensure **Protect container from accidental deletion** is enabled.
+5. Click **OK** to commit the organizational unit creation.
+
+
+
 
 ### Tiered OU Structure Overview
 ![AD Tiered OU Structure Overview](../../docs/phase-2/images/AD-Tiered-OU-Structure-Overview.png)
 
+**Description:**
+Displays the completed multi-tiered Organizational Unit (OU) structure under `KOB_Enterprise`. This design isolates administrative privilege boundaries, separating Tier-0 identity assets, Tier-1 server infrastructure, Tier-2 end-user devices, and administrative accounts to mitigate lateral movement threats.
+
+**Configuration Parameters:**
+- **Enterprise Root:** `KOB_Enterprise`
+- **Tier-0 Container:** `Tier_0_Domain_Admin` (Domain Controllers & Identity Management)
+- **Tier-1 Container:** `Tier_1_Servers_Infrastructure` (Enterprise Application & File Servers)
+- **Tier-2 Container:** `Tier_2_Workstations_and_Users` (End-user devices, departments, and standard accounts)
+- **Admin Container:** `Admin_Privileged_Accounts` (Privileged Support & Service Accounts)
+
+**Verification Steps:**
+1. In ADUC, expand `kob.local` > `KOB_Enterprise`.
+2. Confirm the presence and proper hierarchy of all four administrative tiers:
+   - `Tier_0_Domain_Admin`
+   - `Tier_1_Servers_Infrastructure`
+   - `Tier_2_Workstations_and_Users`
+   - `Admin_Privileged_Accounts`
+3. Validate that each OU contains its respective sub-containers and security groups.
+
+
+
 ### User Account Provisioning
 ![AD User Creation Details](../../docs/phase-2/images/AD-User-Creation-Details.png)
 
+**Description:**
+Configures identity parameters and User Principal Name (UPN) credentials for a new enterprise user account within the Engineering departmental OU (`kob.local/KOB_Enterprise/Tier_2_Workstations_and_Users/Departments/Engineering/Accounts`).
+
+**Configuration Parameters:**
+- **Target OU:** `Engineering/Accounts`
+- **First Name:** `Khaled`
+- **Last Name:** `Bazarah`
+- **Full Name:** `Khaled Bazarah`
+- **User Logon Name (UPN):** `Khaled.eng@kob.local`
+- **Pre-Windows 2000 Logon Name:** `KOB\Khaled.eng`
+
+
 ### User Password & Security Options
 ![AD User Password Options](../../docs/phase-2/images/AD-User-Password-Options.png)
+**Description:**
+Applies security credentials and lifecycle controls during user account provisioning. Configuring strict password behavior enforces domain compliance across production administrative and service boundaries.
+
+
 
 ### Security Group Creation
 ![AD Security Group Creation](../../docs/phase-2/images/AD-Security-Group-Creation.png)
 
+**Description:**
+Establishes Role-Based Access Control (RBAC) security groups to aggregate departmental permissions. Creating security-scoped global groups enables efficient access control management across domain resources.
+
+**Configuration Parameters:**
+- **Target OU:** `kob.local/KOB_Enterprise/Tier_2_Workstations_and_Users/Groups`
+- **Group Name:** `G_Engineering_Users`
+- **Group Name (Pre-Windows 2000):** `G_Engineering_Users`
+- **Group Scope:** `Global`
+- **Group Type:** `Security`
+
+**Configuration Steps:**
+1. Right-click the target `Groups` OU under `Tier_2_Workstations_and_Users`.
+2. Select **New** > **Group**.
+3. Specify `G_Engineering_Users` as the **Group name**.
+4. Set **Group scope** to `Global` and **Group type** to `Security`.
+5. Click **OK** to provision the group.
+
+
+
 ### Moving Objects Menu
 ![AD Move Object Menu](../../docs/phase-2/images/AD-Move-Object-Menu.png)
+
+**Description:**
+Initiates the relocation of a secondary Domain Controller computer object (`KSA-JED-DC02`) from the default built-in `Domain Controllers` container to its structured Tier-0 target OU as part of Tiered Architecture implementation.
+
+
 
 ### Target OU Selection
 ![AD Move Target OU Selection](../../docs/phase-2/images/AD-Move-Target-OU-Selection.png)
 
+**Description:**
+Completes the computer object migration process by targeting the dedicated Tier-0 Domain Controllers Organizational Unit (`kob.local/KOB_Enterprise/Tier_0_Domain_Admin/Domain_Controllers`), maintaining alignment with Microsoft's Enterprise Access Model.
+
+
+
 ---
+---
+
 
 ## 5. Group Policy Objects (GPO) Implementation
 
 ### Account Lockout Policy
 ![GPO Account Lockout Policy](../../docs/phase-2/images/GPO-Account-Lockout-Policy.png)
+**Description:**
+Configures security thresholds within the `Default Domain Policy` GPO to mitigate password brute-force attacks across the domain. Enforcing account lockout controls automatically locks out compromised user accounts following multiple consecutive failed authentication attempts.
+
+---
 
 ### Restricted Groups Configuration
 ![GPO Restricted Groups Config](../../docs/phase-2/images/GPO-Restricted-Groups-Config.png)
+**Description:**
+Applies Tier-1 administrative privilege controls using Restricted Groups in GPO (`T1-Server-Admin-Rights`). Nesting `KOB\G_Tier1_Server_Admins` directly into the local `Administrators` group guarantees centrally managed and enforced membership on target Tier-1 domain servers.
+
+
+---
 
 ### Group Policy Force Update (gpupdate /force)
 ![Group Policy Force Update](../../docs/phase-2/images/Group-Policy-Force-Update.png)
 
+**Description:**
+Forces an immediate update and re-application of active Computer and User Group Policy Objects on the Domain Controller, bypassing default background processing refresh intervals.
+
+**Configuration Parameters:**
+- **Execution Environment:** Command Prompt (`cmd.exe`) run as Administrator
+- **Target Node:** `KSA-JED-DC01` (`192.168.1.101`)
+- **CLI Command:** `gpupdate /force`
+
+**Verification Steps:**
+1. Open an elevated Command Prompt (`cmd.exe`) on the target Windows Server.
+2. Execute the command:
+   ```cmd
+   gpupdate /force
+   ```
+</details>
+
+
+
+---
 ---
 
 ## 6. Client Domain Join & Multi-OS Integration
+---
 
 ### 🪟 Windows Workstation Integration
+---
 #### DHCP Client IP Lease
 ![DHCP Client Lease Active](../../docs/phase-2/images/DHCP-Client-Lease-Active.png)
+
+
+**Description:**
+Displays active DHCP client leases registered within the Windows Server DHCP console under `Scope [192.168.1.0] VLAN10_Engineers`. Validates that Windows workstation `DESKTOP-LIEVPAS` successfully leased network configuration details alongside VPCS lab instances.
+
+---
 
 #### Client IP Network Details
 ![Client IP Configuration Details](../../docs/phase-2/images/Client-IP-Configuration-Details.png)
 
+**Description:**
+Verifies detailed IPv4 configuration, DNS suffix resolution, and Active Directory Domain Controller bindings on client node `DESKTOP-LIEVPAS` using the `ipconfig /all` command line utility.
+
+**Configuration Parameters:**
+- **Host Name:** `DESKTOP-LIEVPAS`
+- **Primary DNS Suffix / Search List:** `kob.local`
+- **IPv4 Address:** `192.168.1.7` (Preferred)
+- **Subnet Mask:** `255.255.255.224`
+- **Default Gateway:** `192.168.1.1`
+- **DHCP Server:** `192.168.1.101`
+- **DNS Servers:** `192.168.1.101` (`KSA-JED-DC01`), `192.168.1.104` (`KSA-JED-DC02`)
+
+**Verification Steps:**
+1. Open an elevated **Command Prompt** (`cmd.exe`) on client `DESKTOP-LIEVPAS`.
+2. Execute the configuration query command:
+   ```cmd
+   ipconfig /all
+   ```
+</details>
+
+---
+
 #### Domain Member Properties
 ![Domain Joined Server Properties](../../docs/phase-2/images/Domain-Joined-Server-Properties.png)
+
+**Description:**
+Overview of Server Manager properties for the primary Domain Controller (`KSA-JED-DC01`), confirming system identity, Active Directory domain association (`kob.local`), static IP assignment, and active core server roles.
+
+---
 
 #### Domain Join Settings
 ![Domain Join Configuration](../../docs/phase-2/images/Domain-Join-Configuration.png)
 
+**Description:**
+Initiates the Active Directory domain-join process on Windows workstation `DESKTOP-LIEVPAS`, switching member status from a standalone `WORKGROUP` to target enterprise domain `kob.local`.
+
+**Configuration Parameters:**
+- **Computer Name:** `DESKTOP-LIEVPAS`
+- **Target Membership:** `Domain`
+- **Target Domain Name:** `kob.local`
+
+**Configuration Steps:**
+1. Open System Properties (`sysdm.cpl`) on the workstation.
+2. Click **Change...** under the **Computer Name** tab.
+3. Under **Member of**, select **Domain** and enter `kob.local`.
+4. Click **OK** to open the domain authentication credential prompt.
+
+---
+
 #### Domain Join Success Confirmation
 ![Domain Join Success](../../docs/phase-2/images/Domain-Join-Success.png)
+
+**Description:**
+Confirms successful authentication and registration of workstation `DESKTOP-LIEVPAS` into domain `kob.local`, establishing security trust and centralized Active Directory Group Policy management.
+
+
+---
 
 #### Domain User Logon Screen
 ![Domain User Login Screen](../../docs/phase-2/images/Domain-User-Login-Screen.png)
 
+**Description:**
+Demonstrates domain interactive logon authentication from a joined Windows client workstation (`192.168.8.136`). The user authenticates using domain credentials (`Khaled.eng`) mapped against the `KOB` Active Directory domain.
+
+---
+
+
 #### Domain Admin Authentication
 ![Domain Admin Login](../../docs/phase-2/images/Domain-Admin-Login.png)
 
+**Description:**
+Shows the primary Domain Controller (`KSA-JED-DC01` / `192.168.1.101`) initializing a domain administrative desktop session under `KOB\Administrator` credentials via Local Session Manager.
+
+---
+
 ### 🐧 Linux (Ubuntu) SSSD Enterprise Integration
+---
 #### Ubuntu DHCP Lease Verification
 ![Ubuntu DHCP Lease Active](../../docs/phase-2/images/Ubuntu-DHCP-Lease-Active.png)
+
+**Description:**
+Validates active DHCP lease assignment for a Linux workstation (`Ubuntu Desktop`) within the HR department scope (`Scope [192.168.1.32] VLAN_HR`) managed by the Active Directory DHCP Server.
+
+---
 
 #### Ubuntu Network Details
 ![Ubuntu IP Address Details](../../docs/phase-2/images/Ubuntu-IP-Address-Details.png)
 
+**Description:**
+Verifies dynamic IPv4 address configuration and subnet binding on an Ubuntu Linux client workstation using the Linux CLI network management utility (`ip a`).
+
+**Configuration Parameters:**
+- **Host Name:** `khaled@PC-i440FX-PIIX-1996`
+- **Network Interface:** `ens3`
+- **Assigned IPv4 Address:** `192.168.1.39/28`
+- **Broadcast Address:** `192.168.1.47`
+- **Scope:** `global dynamic noprefixroute`
+
+**Verification Steps:**
+1. Open the terminal on the Ubuntu Desktop system.
+2. Run the address configuration command:
+   ```bash
+   ip a
+   ```
+</details>
+
+
+---
+
 #### SSSD & Realmd Package Installation
 ![Ubuntu SSSD Packages Install](../../docs/phase-2/images/Ubuntu-SSSD-Packages-Install.png)
+
+**Description:**
+Installs essential Active Directory domain-join utilities and System Security Services Daemon (SSSD) dependency packages on Ubuntu Linux to prepare for Kerberos authentication and domain integration.
+
+**Configuration Parameters:**
+- **Target OS:** Ubuntu Linux
+- **Management Utility:** `apt` Package Manager
+- **Installed Packages:** `realmd`, `sssd`, `adcli`
+- **Dependencies Included:** `sssd-ad`, `sssd-common`, `sssd-krb5`, `samba-libs`, `libpam-sss`
+
+**Configuration Steps:**
+1. Open terminal on the Linux workstation.
+2. Update local package indexes and install required packages:
+   ```bash
+   sudo apt update
+   sudo apt install -y realmd sssd adcli
+   ```
+</details>
+
+
+
+---
 
 #### Active Directory Domain Join Command
 ![Ubuntu AD Domain Join](../../docs/phase-2/images/Ubuntu-AD-Domain-Join.png)
 
+**Description:**
+Discovers Active Directory realm settings for `kob.local` and executes the domain-join process using the `realm` utility with SSSD integration.
+
+**Configuration Parameters:**
+- **Target Realm / Domain:** `kob.local`
+- **Realm Type:** `Kerberos`
+- **Server Software:** `Active Directory`
+- **Client Software:** `SSSD`
+- **Command Used:** `sudo realm join -U Administrator kob.local`
+
+**Configuration Steps:**
+1. Discover target Active Directory realm parameters:
+   ```bash
+   realm discover kob.local
+   ```
+</details>
+
+---
+
 #### Realm List Verification
 ![Ubuntu Realm List Verification](../../docs/phase-2/images/Ubuntu-Realm-List-Verification.png)
 
-#### Terminal Domain DNS Lookup
-![Ubuntu Terminal Domain Nslookup](../../docs/phase-2/images/Ubuntu-Terminal-Domain-Nslookup.png)
+
+**Description:**
+Validates Active Directory domain membership on Ubuntu using `realm list`, confirming Kerberos member status (`kerberos-member`), active SSSD integration, and allowed domain logon formats (`%U@kob.local`).
+
+
+**Verification Steps:**
+1. Execute the realm verification command:
+   ```bash
+   realm list
+   ```
+</details>
+
+
+---
 
 #### Ubuntu GDM Display Manager Login
 ![Ubuntu GDM Login Prompt](../../docs/phase-2/images/Ubuntu-GDM-Login-Prompt.png)
 
+**Description:**
+Shows the Ubuntu GNOME Display Manager (GDM) login prompt configured to accept Active Directory domain principal names (`user@kob.local`) for interactive GUI authentication.
+
+
+---
+
 #### Domain User Interactive Session
 ![Ubuntu Domain User Login](../../docs/phase-2/images/Ubuntu-Domain-User-Login.png)
 
+**Description:**
+Executes interactive GUI desktop authentication on Ubuntu Linux using domain credentials (`khaledhr@kob.local`), leveraging PAM and SSSD to authenticate directly against Active Directory Domain Controllers.
+
+**Verification Steps:**
+1. Enter the domain UPN (`khaledhr@kob.local`) into the GDM username field[cite: 41].
+2. Press **Enter** and supply the Active Directory password.
+3. Confirm successful login and desktop session creation.
+
+
+#### Terminal Domain DNS Lookup
+![Ubuntu Terminal Domain Nslookup](../../docs/phase-2/images/Ubuntu-Terminal-Domain-Nslookup.png)
+
+
+**Description:**
+Validates forward/reverse DNS resolution against Domain Controllers (`192.168.1.101` and `192.168.1.104`) and tests CLI domain authentication using `su` for domain user `khaled.hr@kob.local`.
+
+
+
+**Verification Steps:**
+1. Test reverse lookup for primary Domain Controller:
+   ```bash
+   nslookup 192.168.1.101
+   ```
+</details>
+
+
+---
 ---
 
 ## 7. File Services & Storage Security
@@ -648,11 +959,51 @@ Validates successful IP address lease distribution for the Engineering departmen
 ### SMB Advanced Folder Sharing
 ![SMB Folder Advanced Sharing](../../docs/phase-2/images/SMB-Folder-Advanced-Sharing.png)
 
+
+**Description:**
+Configures advanced SMB file sharing for a localized department folder (`C:\Engineer_share`) on the primary Domain Controller, enabling network-based access for authorized client workstations.
+
+
+---
+
 ### SMB Share Permissions
 ![SMB Share Permissions Config](../../docs/phase-2/images/SMB-Share-Permissions-Config.png)
+
+
+**Description:**
+Applies SMB Share-level security permissions to limit folder accessibility exclusively to members of the Active Directory engineering security group (`G_Engineering_Users`), enforcing Principle of Least Privilege across network entry points.
+
+---
 
 ### NTFS Security & Access Control List (ACL)
 ![NTFS Folder Security Permissions](../../docs/phase-2/images/NTFS-Folder-Security-Permissions.png)
 
+**Description:**
+Configures local NTFS file system security permissions on `C:\Engineer_share` to complement SMB share restrictions. Aligning NTFS Read & Write privileges with the `G_Engineering_Users` domain group ensures consistent security both over the network and locally.
+
+---
+
 ### UNC Path Network Access Verification
 ![UNC Path Run Access](../../docs/phase-2/images/UNC-Path-Run-Access.png)
+
+
+**Description:**
+Validates end-to-end SMB share connectivity and network path resolution from a domain-joined client workstation (`192.168.8.136`) using the Universal Naming Convention (UNC) path.
+
+**Configuration Parameters:**
+- **Client Node:** Domain Workstation (`192.168.8.136`)
+- **Target Server:** `KSA-JED-DC01`
+- **UNC Resource Path:** `\\KSA-JED-DC01\Engineer_share`
+
+**Verification Steps:**
+1. Log into a domain workstation using an authorized user account (e.g., `Khaled.eng`).
+2. Press `Win + R` to launch the Windows **Run** dialog box.
+3. Enter the target UNC path:
+   ```cmd
+   \\KSA-JED-DC01\Engineer_share
+
+   ```
+</details>
+
+
+
