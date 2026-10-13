@@ -66,11 +66,11 @@ Renames the primary server host from its default randomized NetBIOS name to a st
 ![Server Properties Overview](../../docs/phase-2/images/Server-Properties-Overview.png)
 
 **Description:**  
-Displays the **Local Server** dashboard overview in Server Manager following initial baseline configurations[cite: 7]. This verification step confirms that core system properties—including the updated hostname (`KSA-JED-DC01`), time zone (`(UTC+03:00) Kuwait, Riyadh`), Remote Desktop accessibility, and local network adapter settings—are correctly applied before proceeding with role installations[cite: 7].
+Displays the **Local Server** dashboard overview in Server Manager following initial baseline configurations. This verification step confirms that core system properties—including the updated hostname (`KSA-JED-DC01`), time zone (`(UTC+03:00) Kuwait, Riyadh`), Remote Desktop accessibility, and local network adapter settings—are correctly applied before proceeding with role installations.
 
 **Verification Steps:**
-1. Open **Server Manager** and click on **Local Server** in the left navigation pane[cite: 7].
-2. Review the **Properties** panel for `KSA-JED-DC01` to verify the hostname, active Workgroup status, network adapter binding, and time zone settings[cite: 7].
+1. Open **Server Manager** and click on **Local Server** in the left navigation pane.
+2. Review the **Properties** panel for `KSA-JED-DC01` to verify the hostname, active Workgroup status, network adapter binding, and time zone settings.
 
 
 
@@ -78,21 +78,21 @@ Displays the **Local Server** dashboard overview in Server Manager following ini
 ![Static IP Configuration](../../docs/phase-2/images/Static-IP-Configuration-WIN-Server.png)
 
 **Description:**  
-Configures a static IPv4 address, custom subnet mask, default gateway, and loopback/primary DNS reference on the server's network adapter (`Ethernet`)[cite: 8]. Assigning a static IP address is a fundamental prerequisite before promoting a server to a Domain Controller (DC) or DNS server, ensuring consistent network reachability, reliable resolution services, and predictable routing across the subnet[cite: 8].
+Configures a static IPv4 address, custom subnet mask, default gateway, and loopback/primary DNS reference on the server's network adapter (`Ethernet`). Assigning a static IP address is a fundamental prerequisite before promoting a server to a Domain Controller (DC) or DNS server, ensuring consistent network reachability, reliable resolution services, and predictable routing across the subnet.
 
 **Configuration Parameters:**
-- **IP Address:** `192.168.1.101`[cite: 8]
-- **Subnet Mask:** `255.255.255.248`[cite: 8]
-- **Default Gateway:** `192.168.1.97`[cite: 8]
-- **Preferred DNS Server:** `192.168.1.101` (Self-referencing for Active Directory integrated DNS)[cite: 8]
+- **IP Address:** `192.168.1.101`
+- **Subnet Mask:** `255.255.255.248`
+- **Default Gateway:** `192.168.1.97`
+- **Preferred DNS Server:** `192.168.1.101` (Self-referencing for Active Directory integrated DNS)
 
 **Configuration Steps:**
-1. Open **Network Connections** (`ncpa.cpl`) or click on the **Ethernet** interface in **Server Manager**[cite: 8].
-2. Right-click the active adapter and select **Properties**[cite: 8].
-3. Select **Internet Protocol Version 4 (TCP/IPv4)** and click **Properties**[cite: 8].
+1. Open **Network Connections** (`ncpa.cpl`) or click on the **Ethernet** interface in **Server Manager**.
+2. Right-click the active adapter and select **Properties**.
+3. Select **Internet Protocol Version 4 (TCP/IPv4)** and click **Properties**.
 4. Choose **Use the following IP address** and enter the static parameters (`IP: 192.168.1.101`, `Subnet: 255.255.255.248`, `Gateway: 192.168.1.97`)[cite: 8].
-5. Select **Use the following DNS server addresses** and set **Preferred DNS server** to `192.168.1.101`[cite: 8].
-6. Click **OK** and close to apply the network bindings[cite: 8].
+5. Select **Use the following DNS server addresses** and set **Preferred DNS server** to `192.168.1.101`.
+6. Click **OK** and close to apply the network bindings.
 
 
 
