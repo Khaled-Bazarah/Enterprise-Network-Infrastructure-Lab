@@ -8,7 +8,10 @@
 ![Proxmox](https://img.shields.io/badge/Hypervisor-Proxmox%20VE-E57008?style=for-the-badge&logo=proxmox)
 ![Cisco](https://img.shields.io/badge/Networking-Cisco%20vIOS-1BA0D7?style=for-the-badge&logo=cisco)
 ![Fortinet](https://img.shields.io/badge/Security-FortiGate%20NGFW-red?style=for-the-badge&logo=fortinet)
-![Status](https://img.shields.io/badge/Phase%201-Completed-brightgreen?style=for-the-badge) ![Status](https://shields.io)
+![Status](https://img.shields.io/badge/Phase%201-Completed-brightgreen?style=for-the-badge) 
+
+
+![EVE-NG](https://img.shields.io/badge/Emulation-EVE--NG-orange?style=for-the-badge&logo=qemu)![Proxmox](https://img.shields.io/badge/Hypervisor-Proxmox%20VE-E57008?style=for-the-badge&logo=proxmox)![Cisco](https://img.shields.io/badge/Networking-Cisco%20vIOS-1BA0D7?style=for-the-badge&logo=cisco)![Fortinet](https://img.shields.io/badge/Security-FortiGate%20NGFW-red?style=for-the-badge&logo=fortinet)![Status](https://img.shields.io/badge/Phase%201-Completed-brightgreen?style=for-the-badge)![Status](https://shields.io)
 
 
 </div>
