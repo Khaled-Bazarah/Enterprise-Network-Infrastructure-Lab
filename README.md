@@ -30,7 +30,7 @@ This repository documents the end-to-end design, implementation, and hardening o
 - [Technical Highlights & Security Hardening](#-technical-highlights--security-hardening)
 - [Project Roadmap](#-project-roadmap)
 - [Detailed IP Addressing Architecture](#-detailed-ip-addressing-architecture)
-- [Author & Contact](#-author--contact)
+
 
 ---
 
